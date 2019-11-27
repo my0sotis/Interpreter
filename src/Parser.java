@@ -3,8 +3,11 @@ import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 public class Parser {
     private static File locationFile = new File("./output/out");
@@ -43,7 +46,7 @@ public class Parser {
 
     /**
      * 预处理，把语法分析得到的东西预处理
-     * @throws IOException
+     * @throws IOException IO
      */
     private static void pretreated() throws IOException {
         inputProgram();
@@ -208,7 +211,7 @@ public class Parser {
 
     /**
      *
-     * @return
+     * @return Terminal set
      */
     @SuppressWarnings("unchecked")
     private static Set getTerminalSet() {
@@ -387,21 +390,22 @@ public class Parser {
         }
     }
 
-    public static void getTree(DefaultMutableTreeNode node) {
-        JPanel panel = new JPanel();
+    private static void getTree(DefaultMutableTreeNode node) {
+//        JPanel panel = new JPanel();
 //        reverse(node);
         JTree jtree = new JTree(node);
-        panel.add(jtree);
-        panel.setVisible(true);
-        JFrame frame=new JFrame("语法树");
+//        panel.add(jtree);
+//        panel.setVisible(true);
+        JFrame frame=new JFrame("Syntax Tree");
         frame.setSize(1080,900);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(panel);
+//        frame.getContentPane().add(panel);
+        frame.add(new JScrollPane(jtree));
         frame.pack();
         frame.setVisible(true);
     }
 
-    public static void start() throws IOException {
+    static void start() throws IOException {
         pretreated();
         Analyse();
     }

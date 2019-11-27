@@ -1,10 +1,7 @@
-import com.sun.source.tree.Tree;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;

@@ -1,0 +1,4 @@
+char a='!',s='@',c=' ',d='`',f='"';
+char q[]="asdfghjkl;'][=)(*&^%$#@!"; // it is legal due to the syntax sugar
+char z[3]="12";		// it is legal with warning
+char t[4]={'\n','\r','\t','\\'};

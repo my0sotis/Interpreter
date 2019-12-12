@@ -1,3 +1,5 @@
+package Utils;
+
 import org.json.simple.JSONObject;
 
 import java.awt.image.AreaAveragingScaleFilter;
@@ -17,18 +19,18 @@ public class GrammarMap {
 //        map.put("F", Arrays.asList("( E )", "i"));
 
         // S-开始符号 F-函数 BS-除函数以外的句子 11 "L S",
-        map.put("S", Arrays.asList("F S", "C S",  "SS S", "L S", "ε"));
+        map.put("S", Arrays.asList("C S",  "SS S", "L S", "ε"));
         // Parameters-参数列表 FunType-函数类型 BasicType-基础类型 Pointer-指针
         map.put("F", Collections.singletonList("void identifier ( Parameters ) { S Return }"));
         map.put("BasicType", Arrays.asList("int", "char", "real", "bool"));
 //        map.put("FunBasicType", Arrays.asList("void", "BasicType"));
 //        map.put("FunType", Collections.singletonList("FunBasicType Pointer"));
-        map.put("Pointer", Arrays.asList("* Pointer", "ε"));
-        map.put("Parameters", Arrays.asList("Type identifier Initialize Parameter", "ε"));
+//        map.put("Pointer", Arrays.asList("* Pointer", "ε"));
+        map.put("Parameters", Arrays.asList("BasicType identifier Initialize Parameter", "ε"));
         map.put("Initialize", Arrays.asList("= Expression", "ε"));
         map.put("Parameter", Arrays.asList("ε", ", Parameters"));
         map.put("Return", Arrays.asList("return Expression ;", "ε"));
-        map.put("Type", Collections.singletonList("BasicType Pointer"));
+//        map.put("Type", Collections.singletonList("BasicType Pointer"));
 
         // 运算式 30
         map.put("Expression", Collections.singletonList("E1 E'"));
@@ -81,8 +83,8 @@ public class GrammarMap {
         map.put("Array2", Arrays.asList("{ Value3 Element }", "Expression", "String"));
         map.put("Element", Arrays.asList(", Value3 Element", "ε"));
         map.put("Value3", Arrays.asList("Character", "Expression", "String"));
-        map.put("Character", Collections.singletonList("\' Char1"));
-        map.put("Char1", Arrays.asList("string \'", "\'"));
+        map.put("Character", Collections.singletonList("' Char1"));
+        map.put("Char1", Arrays.asList("string '", "'"));
         map.put("String", Collections.singletonList("\" String1"));
         map.put("String1", Arrays.asList("string \"", "\""));
         map.put("Assign", Collections.singletonList("identifier State3 State2 ;"));

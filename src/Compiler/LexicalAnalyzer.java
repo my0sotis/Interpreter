@@ -1,3 +1,5 @@
+package Compiler;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ public class LexicalAnalyzer {
             "++", "--"
     };
     private final static String[] DELIMITER = {
-            ";", ",", "\"", "\'", "(", "[", "{", ")", "]", "}"
+            ";", ",", "\"", "'", "(", "[", "{", ")", "]", "}"
     };
 
     private final static int NUM_KEYWORD = KEYWORD.length;
@@ -353,7 +355,7 @@ public class LexicalAnalyzer {
                         k++;
                     }
                     if (isFinished) continue;
-                } else if (quota_mark != null && quota_mark.equals("\'")) {
+                } else if (quota_mark != null && quota_mark.equals("'")) {
                     if (string_test.charAt(j) == '\\') {
                         if (j + 2 <= string_test.length()
                             && EscapeSymbol.contains(string_test.charAt(j+1)) && string_test.charAt(j+2)=='\'') {

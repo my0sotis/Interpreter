@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import Compiler.LexicalAnalyzer;
+import Compiler.Parser;
 
 public class Main {
     public static void main(String[] args) {

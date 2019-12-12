@@ -1,3 +1,7 @@
+package Compiler;
+
+import Utils.GrammarMap;
+import Utils.TreeNode;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
@@ -305,9 +309,6 @@ public class Parser {
         Set nonTerminalSet = getNonTerminalSet();
         int num_error = 0;
         JPanel panel = new JPanel();
-//        DefaultMutableTreeNode root = new DefaultMutableTreeNode(start);
-//        Stack<DefaultMutableTreeNode> tree = new Stack<>();
-//        tree.push(root);
         TreeNode root = new TreeNode(start);
         Stack<TreeNode> tree = new Stack<>();
         tree.push(root);
@@ -338,13 +339,9 @@ public class Parser {
                 String[] section = production.split("->");
                 String[] right = section[1].split(" ");
                 stack.pop();
-//                DefaultMutableTreeNode n = tree.pop();
                 TreeNode n = tree.pop();
                 for (int i = right.length - 1; i >= 0; i--) {
                     if (Character.isUpperCase(right[i].charAt(0))) {
-//                        DefaultMutableTreeNode t = new DefaultMutableTreeNode(right[i]);
-//                        n.add(t);
-//                        tree.push(t);
                         TreeNode t = new TreeNode(right[i]);
                         n.addChildren(t);
                         tree.push(t);
@@ -377,32 +374,25 @@ public class Parser {
             reverse(root);
             DefaultMutableTreeNode treeNode = clone(root);
             getTree(treeNode);
-//            TreeDrawer.writeImage("JPG",new File("./output/STA.jpg"),
-//                    Collections.singletonList(root), "");
         } else {
             out.write(("There are " + num_error + " errors in the program.").getBytes());
-//            reverse(root);
-//            TreeDrawer.writeImage("JPG",new File("./output/STA.jpg"),
-//                    Collections.singletonList(root), "");
+            reverse(root);
+            DefaultMutableTreeNode treeNode = clone(root);
+            getTree(treeNode);
         }
     }
 
     private static void getTree(DefaultMutableTreeNode node) {
-//        JPanel panel = new JPanel();
-//        reverse(node);
         JTree jtree = new JTree(node);
-//        panel.add(jtree);
-//        panel.setVisible(true);
         JFrame frame=new JFrame("Syntax Tree");
         frame.setSize(1080,900);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.getContentPane().add(panel);
         frame.add(new JScrollPane(jtree));
         frame.pack();
         frame.setVisible(true);
     }
 
-    static void start() throws IOException {
+    public static void start() throws IOException {
         pretreated();
         Analyse();
     }

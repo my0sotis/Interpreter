@@ -1,3 +1,5 @@
+package Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,5 +25,13 @@ public class TreeNode {
 
     public List<TreeNode> getChildren() {
         return Children;
+    }
+
+    public TreeNode getChildAt(int index) {
+        return Children.get(index);
+    }
+
+    public int getChildrenNum() {
+        return Children.size();
     }
 }

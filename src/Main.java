@@ -7,13 +7,16 @@ import Compiler.Parser;
 public class Main {
     public static void main(String[] args) {
         LexicalAnalyzer la = new LexicalAnalyzer();
+        Parser p = new Parser();
         try {
             FileOutputStream fos = new FileOutputStream("./output/out");
             la.setOut(fos);
-            la.setFile(new File("./Tests/Test1"));
+            la.setFile(new File("./Tests/test1"));
             la.Analyze();
             System.out.println("词法分析完毕！");
-            Parser.start();
+            FileOutputStream fo = new FileOutputStream("./output/pout");
+            p.setOut(fo);
+            p.start();
         } catch (IOException e) {
             e.printStackTrace();
         }

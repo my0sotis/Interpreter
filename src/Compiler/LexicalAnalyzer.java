@@ -30,7 +30,8 @@ public class LexicalAnalyzer {
     private final static int NUM_BINOCULAR_OP = BINOCULAR_OP.length;
     private final static int NUM_DELIMITER = DELIMITER.length;
     private final static int NUM_TOTAL = NUM_KEYWORD + NUM_MONOCULAR_OP + NUM_BINOCULAR_OP + NUM_DELIMITER;
-    private final static String REGEX_DIGITAL = "^[+|-]?((\\d+(\\.\\d+)?)|(0x(\\d|[A-F])+(\\.(\\d|[A-F])+)?))$";
+    private final static String REGEX_DIGITAL =
+            "^[+|-]?((\\d+(\\.\\d+)?)|(0x(\\d|[A-F]|[a-f])+(\\.(\\d|[A-F]|[a-f])+)?))$";
     private static OutputStream out = System.out;
     private static File file = new File("./test");
     private static File variable_table = new File("./output/variable.table");
@@ -299,20 +300,20 @@ public class LexicalAnalyzer {
         int may_error_column = -1;                              // 可能发生错误的列号
         String may_error_string = null;                         // 可能发生错误的字符
         String quota_mark = null;                               // 引号，表明后面为字符串
+        List<Character> EscapeSymbol = new ArrayList<>();
+        EscapeSymbol.add('\\');
+        EscapeSymbol.add('\"');
+        EscapeSymbol.add('\'');
+        List<Character> EscapeChar = new ArrayList<>();
+        EscapeChar.add('n');
+        EscapeChar.add('r');
+        EscapeChar.add('b');
+        EscapeChar.add('t');
+        EscapeChar.add('a');
         for (int i = 0; i < list.size(); i++) {                 // 遍历每一行，i为行号
             String string_test = list.get(i);                   // 本次要分析的字符串
             for (int j = 0; j < string_test.length(); j++) {    // 遍历该字符串
                 char tmp = string_test.charAt(j);
-                List<Character> EscapeSymbol = new ArrayList<>();
-                EscapeSymbol.add('\\');
-                EscapeSymbol.add('\"');
-                EscapeSymbol.add('\'');
-                List<Character> EscapeChar = new ArrayList<>();
-                EscapeChar.add('n');
-                EscapeChar.add('r');
-                EscapeChar.add('b');
-                EscapeChar.add('t');
-                EscapeChar.add('a');
                 if (quota_mark != null && quota_mark.equals("\"")) {                       // 如果引号不为空，则说明接下来字符为String
                     StringBuilder sb = new StringBuilder();
                     if (j + 1 > string_test.length()) {
@@ -519,7 +520,7 @@ public class LexicalAnalyzer {
                     }
                     // 若上一个token为数字或表示符，则表明此处为加减符号
                     if (last_token == NUM_TOTAL + 1 || last_token == NUM_TOTAL + 2
-                                || last_token == get_num(")", 2)) {
+                                || last_token == get_num(")", 2) || last_token == get_num("]", 2)) {
                         String t = String.valueOf(tmp);
                         if (may_error_row != -1) {
                             out.write(get_Error_String(3, may_error_row, may_error_column));

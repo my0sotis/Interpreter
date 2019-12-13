@@ -33,11 +33,11 @@ public class GrammarMap {
 //        map.put("Type", Collections.singletonList("BasicType Pointer"));
 
         // 运算式 30
-        map.put("Expression", Collections.singletonList("E1 E'"));
-        map.put("E'", Arrays.asList("= Expression", "/= Expression", "*= Expression", "%= Expression",
-                "+= Expression", "-= Expression", "<<= Expression", ">>= Expression", "&= Expression",
-                "^= Expression", "|= Expression", "ε"));
-        map.put("E1", Collections.singletonList("E2 E1'"));
+//        map.put("Expression", Collections.singletonList("E1 E'"));
+//        map.put("E'", Arrays.asList("= Expression", "/= Expression", "*= Expression", "%= Expression",
+//                "+= Expression", "-= Expression", "<<= Expression", ">>= Expression", "&= Expression",
+//                "^= Expression", "|= Expression", "ε"));
+        map.put("Expression", Collections.singletonList("E2 E1'"));
         map.put("E1'", Arrays.asList("|| E2 E1'", "ε"));
         map.put("E2", Collections.singletonList("E3 E2'"));
         map.put("E2'", Arrays.asList("&& E3 E2'", "ε"));
@@ -59,15 +59,20 @@ public class GrammarMap {
         map.put("E10'", Arrays.asList("/ E11 E10'", "* E11 E10'", "% E11 E10'", "ε"));
 //        map.put("E11", Collections.singletonList("E12 E11'"));
 //        map.put("E11'", Arrays.asList("++ E12", "-- E12", "ε"));
-        map.put("E11", Arrays.asList("( E1 )", "Value"));
+        map.put("E11", Arrays.asList("( Expression )", "Value"));
         map.put("Value", Arrays.asList("identifier E13", "number", "Scan", "true", "false"));
-        map.put("Scan", Collections.singletonList("scan ( Expression )"));
-        map.put("E13", Arrays.asList("[ E1 ] E13", "( Value1 Value2 )", "ε"));
-        map.put("Value1", Arrays.asList("number", "identifier", "ε"));
-        map.put("Value2", Arrays.asList(", Value1 Value2", "ε"));
+        map.put("Scan", Collections.singletonList("scan ( ScanItem )"));
+        // E13 Abandon "( Value1 Value2 )"
+        map.put("E13", Arrays.asList("[ Expression ] E13", "ε"));
+        // Value1 is E13 related
+//        map.put("Value1", Arrays.asList("number", "identifier", "ε"));
+//        map.put("Value2", Arrays.asList(", Value1 Value2", "ε"));
+        map.put("ScanItem", Collections.singletonList("identifier ScanArray"));
+        map.put("ScanArray", Arrays.asList("ε", "[ Expression ]"));
 
         // L-循环 SS-单句 C-条件 3
-        map.put("SS", Arrays.asList("Jump", "Print", "State", "Assign"));
+        map.put("SS", Arrays.asList("Jump", "Print", "State", "Assign", "ScanSentence"));
+        map.put("ScanSentence", Collections.singletonList("Scan ;"));
         map.put("Print", Collections.singletonList("print ( Expression ) ;"));
         map.put("Jump", Arrays.asList("break ;", "continue ;"));
 
@@ -87,7 +92,8 @@ public class GrammarMap {
         map.put("Char1", Arrays.asList("string '", "'"));
         map.put("String", Collections.singletonList("\" String1"));
         map.put("String1", Arrays.asList("string \"", "\""));
-        map.put("Assign", Collections.singletonList("identifier State3 State2 ;"));
+        map.put("Assign", Collections.singletonList("identifier Assign1 State2 ;"));
+        map.put("Assign1", Arrays.asList("[ Array", "= Value3"));
 
         // 条件 6 P
         map.put("C", Collections.singletonList("if ( Expression ) Judge"));
@@ -98,9 +104,9 @@ public class GrammarMap {
         map.put("Judge2", Arrays.asList("if ( Expression ) Judge1", "Content"));
 
         // 循环 7
-        map.put("L", Arrays.asList("while ( Expression ) While", "do DoWhile", "for ( For1 For2 ; For2 ) For"));
+        map.put("L", Arrays.asList("while ( Expression ) While", "for ( For1 For2 ; For2 ) For"));
         map.put("While", Arrays.asList("while ( Expression ) While", "{ S }", "SS", "Expression ;", "C", ";"));
-        map.put("DoWhile", Arrays.asList("do DoWhile", "{ S } while ( Expression ) ;"));
+//        map.put("DoWhile", Arrays.asList("do DoWhile", "{ S } while ( Expression ) ;"));
         map.put("For1", Arrays.asList("Assign", "State", "ε"));
         map.put("For2", Arrays.asList("Expression", "ε"));
 //        map.put("For3", Arrays.asList("Assign", "ε"));

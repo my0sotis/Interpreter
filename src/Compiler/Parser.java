@@ -11,27 +11,31 @@ import java.util.*;
 import java.util.List;
 
 public class Parser {
-    private static File locationFile = new File("./output/out");
-    private static List<String> sentence = new ArrayList<>();
-    private static OutputStream out = System.out;
+    private File locationFile = new File("./output/out");
+    private List<String> sentence = new ArrayList<>();
+    private OutputStream out = System.out;
 
-    private static GrammarMap gm = new GrammarMap();
-    private static JSONObject grammar = gm.getGrammar();                           // 获取文法
-    private static String start = gm.getStartSymbol();                             // 得到开始符号
-    private static JSONObject firstSet;
-    private static JSONObject followSet;
-    private static JSONObject selectSet = new JSONObject();
-    private static JSONObject analysisTable = new JSONObject();
+    private GrammarMap gm = new GrammarMap();
+    private JSONObject grammar = gm.getGrammar();                           // 获取文法
+    private String start = gm.getStartSymbol();                             // 得到开始符号
+    private JSONObject firstSet;
+    private JSONObject followSet;
+    private JSONObject selectSet = new JSONObject();
+    private JSONObject analysisTable = new JSONObject();
 
     public void setLocationFile(File locationFile) {
-        Parser.locationFile = locationFile;
+        this.locationFile = locationFile;
+    }
+
+    public void setOut(OutputStream out) {
+        this.out = out;
     }
 
     /**
      * 初始化输入程序
      * @throws IOException 抛出错误
      */
-    private static void inputProgram() throws IOException {
+    private void inputProgram() throws IOException {
         try {
             sentence.clear();
             BufferedReader br = new BufferedReader(new FileReader(locationFile));
@@ -49,7 +53,7 @@ public class Parser {
      * 预处理，把语法分析得到的东西预处理
      * @throws IOException IO
      */
-    private static void pretreated() throws IOException {
+    private void pretreated() throws IOException {
         inputProgram();
         if (sentence.size() == 0) {
             out.write("No Sentence!".getBytes());
@@ -78,7 +82,7 @@ public class Parser {
     }
 
     @SuppressWarnings("unchecked")
-    private static List<String> getSingleFirst(Object non_terminal) {
+    private List<String> getSingleFirst(Object non_terminal) {
         List<String> exports = (List<String>) grammar.get(non_terminal);        // 产生式
         Set<String> res = new HashSet();                                        // 结果
         for (String s : exports) {                                              // 遍历每一条产生式
@@ -114,7 +118,7 @@ public class Parser {
         return new ArrayList<>(res);
     }
 
-    private static void getFirst() {
+    private void getFirst() {
         HashMap<Object, List<String>> res = new HashMap<>();
         for (Object key : grammar.keySet()) {
             res.put(key, getSingleFirst(key));
@@ -123,7 +127,7 @@ public class Parser {
     }
 
     @SuppressWarnings("unchecked")
-    private static void getFollow() {
+    private void getFollow() {
         getFirst();
         HashMap<Object, List<String>> map = new HashMap<>();
         for (Object key : grammar.keySet()) {               // 初始化Follow集
@@ -181,7 +185,7 @@ public class Parser {
     }
 
     @SuppressWarnings("unchecked")
-    private static void getSelect() {
+    private void getSelect() {
         getFollow();
         for (Object key : grammar.keySet()) {                               // 获取产生式
             HashMap<String, List<String>> subSelect = new HashMap<>();      // 建立select集
@@ -189,13 +193,24 @@ public class Parser {
             for (String s : exports) {                                      // 遍历各个产生式
                 String [] export = s.split(" ");
                 if (Character.isUpperCase(export[0].charAt(0))) {           // 如果产生式第一个为非终结符
-                    List<String> first = (List<String>) firstSet.get(export[0]);        // 获取first集
+                    List<String> temp = (List<String>) firstSet.get(export[0]);        // 获取first集
+                    List<String> first = new ArrayList<>(temp);
+                    first.remove("ε");
                     int i = 0;
                     for (; i < export.length; i++) {                    // 如果第一个可为空，则把第二个非终结符的first集加进去
-                        List<String> eachFirst= (List<String>) firstSet.get(export[i]);
-                        if (eachFirst != null && eachFirst.contains("ε")) {
+                        List<String> tmp= (List<String>) firstSet.get(export[i]);
+                        List<String> eachFirst = new ArrayList<>();
+                        if (tmp != null) {
+                            eachFirst.addAll(tmp);
+                        }
+                        if (tmp != null && eachFirst.contains("ε")) {
                             eachFirst.remove("ε");
-                            first.addAll(eachFirst);
+                            for (var f: eachFirst) {
+                                if (!first.contains(f)) {
+                                    first.add(f);
+                                }
+                            }
+//                            first.addAll(eachFirst);
                         } else break;
                     }
                     if (i == export.length) first.addAll((List<String>) followSet.get(key));  // 如果全可为空，则加入follow
@@ -215,7 +230,7 @@ public class Parser {
      * @return Terminal set
      */
     @SuppressWarnings("unchecked")
-    private static Set getTerminalSet() {
+    private Set getTerminalSet() {
         Set res = new HashSet();
         for (Object key : firstSet.keySet()) {
             res.addAll((List<String>) firstSet.get(key));
@@ -228,29 +243,12 @@ public class Parser {
     }
 
     @SuppressWarnings("unchecked")
-    private static Set getTerm() {
-        Set res = new HashSet();
-        for (Object key : grammar.keySet()) {
-            List<String> exports = (List<String>) grammar.get(key);
-            for (String export : exports) {
-                String[] s = export.split(" ");
-                for (String value : s) {
-                    if (!Character.isUpperCase(value.charAt(0))) {
-                        res.add(value);
-                    }
-                }
-            }
-        }
-        return res;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static Set getNonTerminalSet() {
+    private Set getNonTerminalSet() {
         return new HashSet(firstSet.keySet());
     }
 
     @SuppressWarnings("unchecked")
-    private static void getAnalysisTable() {
+    private void getAnalysisTable() {
         getSelect();
         Set terminalSet = getTerminalSet();
         Set nonTerminalSet = getNonTerminalSet();
@@ -276,7 +274,7 @@ public class Parser {
         }
     }
 
-    private static void reverse(TreeNode root) {
+    private void reverse(TreeNode root) {
         if (root.getChildren().isEmpty()) return;
         Collections.reverse(root.getChildren());
         List<TreeNode> children = root.getChildren();
@@ -285,7 +283,7 @@ public class Parser {
         }
     }
 
-    private static javax.swing.tree.DefaultMutableTreeNode clone(TreeNode root) {
+    private javax.swing.tree.DefaultMutableTreeNode clone(TreeNode root) {
         DefaultMutableTreeNode t = new DefaultMutableTreeNode(root.getName());
         if (!root.getChildren().isEmpty()) {
             for (TreeNode n : root.getChildren()) {
@@ -296,7 +294,7 @@ public class Parser {
     }
 
     @SuppressWarnings("unchecked")
-    private static void Analyse() throws IOException {
+    private void Analyse() throws IOException {
         getAnalysisTable();
         Stack<String> sen = new Stack<>();
         sen.push("$");
@@ -322,14 +320,14 @@ public class Parser {
                 HashMap<String, List<String>> row = (HashMap<String, List<String>>) analysisTable.get(peek);
                 List<String> cell = row.get(sen.peek());
                 if (cell == null || cell.size() != 1) {
-                    out.write("Cannot find the production!\n".getBytes());
+                    out.write("Wrong: Cannot find the production!\n".getBytes());
                     num_error++;
                     sen.pop();
                     continue;
                 }
                 // 恐慌模式
                 if (cell.get(0).equals("synch")) {
-                    out.write("Cannot find the production!\n".getBytes());
+                    out.write("Wrong: Cannot find the production!\n".getBytes());
                     num_error++;
                     stack.pop();
                     tree.pop();
@@ -362,7 +360,7 @@ public class Parser {
                     stack.pop();
                     sen.pop();
                 } else {
-                    out.write("There is a terminator that cannot match.\n".getBytes());
+                    out.write("Wrong: There is a terminator that cannot match.\n".getBytes());
                     num_error++;
                     stack.pop();
                 }
@@ -370,19 +368,19 @@ public class Parser {
             out.write("\n".getBytes());
         }
         if (num_error == 0) {
-            out.write("Analyse Successful!".getBytes());
+            System.out.println("Analyse Successful!");
             reverse(root);
             DefaultMutableTreeNode treeNode = clone(root);
             getTree(treeNode);
         } else {
-            out.write(("There are " + num_error + " errors in the program.").getBytes());
+            System.out.println("There are " + num_error + " errors in the program.");
             reverse(root);
             DefaultMutableTreeNode treeNode = clone(root);
             getTree(treeNode);
         }
     }
 
-    private static void getTree(DefaultMutableTreeNode node) {
+    private void getTree(DefaultMutableTreeNode node) {
         JTree jtree = new JTree(node);
         JFrame frame=new JFrame("Syntax Tree");
         frame.setSize(1080,900);
@@ -392,13 +390,16 @@ public class Parser {
         frame.setVisible(true);
     }
 
-    public static void start() throws IOException {
+    public void start() throws IOException {
         pretreated();
         Analyse();
     }
 
     public static void main(String[] args) throws IOException {
-        pretreated();
-        Analyse();
+        Parser p = new Parser();
+        p.getAnalysisTable();
+        FileOutputStream fos = new FileOutputStream(new File("./output/test"));
+        fos.write(p.analysisTable.toString().getBytes());
+        System.out.println(p.firstSet.get("State2"));
     }
 }

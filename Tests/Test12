@@ -1,4 +1,0 @@
-int b(){
-    int k = 1;
-    return k;
-}

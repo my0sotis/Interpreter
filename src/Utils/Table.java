@@ -2,6 +2,7 @@ package Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class Table {
     private List<TableElement> symbolTable = new ArrayList<>();

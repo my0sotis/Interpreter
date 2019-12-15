@@ -22,6 +22,7 @@ public class Parser {
     private JSONObject followSet;
     private JSONObject selectSet = new JSONObject();
     private JSONObject analysisTable = new JSONObject();
+    private TreeNode root;
 
     public void setLocationFile(File locationFile) {
         this.locationFile = locationFile;
@@ -372,6 +373,7 @@ public class Parser {
             reverse(root);
             DefaultMutableTreeNode treeNode = clone(root);
             getTree(treeNode);
+            this.root = root;
         } else {
             System.out.println("There are " + num_error + " errors in the program.");
             reverse(root);
@@ -393,6 +395,10 @@ public class Parser {
     public void start() throws IOException {
         pretreated();
         Analyse();
+    }
+
+    public TreeNode getRoot() {
+        return root;
     }
 
     public static void main(String[] args) throws IOException {

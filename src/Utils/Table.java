@@ -64,4 +64,8 @@ public class Table {
     public int size() {
         return symbolTable.size();
     }
+
+    public List<TableElement> getSymbolTable() {
+        return symbolTable;
+    }
 }

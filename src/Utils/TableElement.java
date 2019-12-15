@@ -1,5 +1,6 @@
 package Utils;
 
+import java.util.List;
 import java.util.Objects;
 
 public class TableElement {
@@ -11,8 +12,9 @@ public class TableElement {
     private String realValue;
     private String stringValue;
     private int arrayNum;
+    private List<Value> array;
 
-    public TableElement(String name, String type, int line, int level) {
+    public TableElement(String name, String type, int level) {
         this.name = name;
         this.type = type;
         this.level = level;
@@ -78,6 +80,23 @@ public class TableElement {
         this.arrayNum = arrayNum;
     }
 
+    public void setArray(List<Value> array) {
+        this.array = array;
+        arrayNum = array.size();
+    }
+
+    public List<Value> getArray() {
+        return array;
+    }
+
+    public Value getArrayElementAt(int index) {
+        return array.get(index);
+    }
+
+    public int getArraySize() {
+        return arrayNum;
+    }
+
     @Override
     public String toString() {
         return "TableElement{" +
@@ -102,5 +121,17 @@ public class TableElement {
     @Override
     public int hashCode() {
         return Objects.hash(name, type, level, arrayNum);
+    }
+
+    public String getValue() {
+        switch (type) {
+            case "int":
+                return getIntValue();
+            case "real":
+                return getRealValue();
+            case "char":
+                return getStringValue();
+        }
+        return null;
     }
 }

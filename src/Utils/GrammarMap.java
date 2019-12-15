@@ -77,16 +77,16 @@ public class GrammarMap {
         map.put("Jump", Arrays.asList("break ;", "continue ;"));
 
         // State Assign 14
-        map.put("State", Arrays.asList("int identifier State1", "real identifier State1", "char identifier State1",
-                "bool identifier State1"));
-        map.put("State1", Arrays.asList("State2 ;", "[ Array State2 ;", "= Value3 State2 ;"));
+        map.put("State", Arrays.asList("int identifier State1", "real identifier State1", "char identifier State1"));
+        map.put("State1", Arrays.asList("State2 ;", "[ Array State2 ;", "= Value4 State2 ;"));
         map.put("State2", Arrays.asList(", identifier State3 State2", "ε"));
-        map.put("State3", Arrays.asList("[ Array", "= Value3", "ε"));
+        map.put("State3", Arrays.asList("[ Array", "= Value4", "ε"));
         map.put("Array", Arrays.asList("Expression ] Array1", "] Array1"));
 //        map.put("Array1", Arrays.asList("] Array2"));
         map.put("Array1", Arrays.asList("= Array2", "ε"));
-        map.put("Array2", Arrays.asList("{ Value3 Element }", "Expression", "String"));
-        map.put("Element", Arrays.asList(", Value3 Element", "ε"));
+        map.put("Array2", Arrays.asList("{ Value4 Element }", "String"));
+        map.put("Element", Arrays.asList(", Value4 Element", "ε"));
+        map.put("Value4", Arrays.asList("Character", "Expression"));
         map.put("Value3", Arrays.asList("Character", "Expression", "String"));
         map.put("Character", Collections.singletonList("' Char1"));
         map.put("Char1", Arrays.asList("string '", "'"));
@@ -105,7 +105,7 @@ public class GrammarMap {
 
         // 循环 7
         map.put("L", Arrays.asList("while ( Expression ) While", "for ( For1 For2 ; For2 ) For"));
-        map.put("While", Arrays.asList("while ( Expression ) While", "{ S }", "SS", "Expression ;", "C", ";"));
+        map.put("While", Arrays.asList("while ( Expression ) While", "{ S }", "SS", "Expression ;", "C"));
 //        map.put("DoWhile", Arrays.asList("do DoWhile", "{ S } while ( Expression ) ;"));
         map.put("For1", Arrays.asList("Assign", "State", "ε"));
         map.put("For2", Arrays.asList("Expression", "ε"));

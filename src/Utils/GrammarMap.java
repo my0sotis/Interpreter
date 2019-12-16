@@ -74,7 +74,7 @@ public class GrammarMap {
         map.put("SS", Arrays.asList("Jump", "Print", "State", "Assign ;", "ScanSentence"));
         map.put("ScanSentence", Collections.singletonList("Scan ;"));
         map.put("Print", Collections.singletonList("print ( PrintItem"));
-        map.put("PrintItem", Arrays.asList("Expression ) ;", "String ) ;"));
+        map.put("PrintItem", Arrays.asList("Expression ) ;", "String ) ;", "Character ) ;"));
         map.put("Jump", Arrays.asList("break ;", "continue ;"));
 
         // State Assign 14
@@ -87,10 +87,10 @@ public class GrammarMap {
         map.put("Array1", Arrays.asList("= Array2", "ε"));
         map.put("Array2", Arrays.asList("{ Value4 Element }", "String", "Character", "Expression"));
         map.put("Element", Arrays.asList(", Value4 Element", "ε"));
-        map.put("Value4", Arrays.asList("Character", "Expression"));
+        map.put("Value4", Arrays.asList("Character", "Expression", "String"));
         map.put("Value3", Arrays.asList("Character", "Expression", "String"));
         map.put("Character", Collections.singletonList("' Char1"));
-        map.put("Char1", Arrays.asList("string '", "'"));
+        map.put("Char1", Arrays.asList("string \'", "\'"));
         map.put("String", Collections.singletonList("\" String1"));
         map.put("String1", Arrays.asList("string \"", "\""));
         map.put("Assign", Collections.singletonList("identifier Assign1 State2"));

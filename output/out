@@ -1,48 +1,237 @@
-<Keyword, int, 1:1>
-<Identifier, x, 1:5>
-<Monocular Operation, =, 1:7>
-<Number, 5, 1:9>
-<Delimiter, ;, 1:10>
-<Keyword, int, 2:1>
-<Identifier, y, 2:5>
-<Monocular Operation, =, 2:7>
-<Number, 6, 2:9>
-<Delimiter, ;, 2:10>
-<Keyword, while, 3:1>
-<Delimiter, (, 3:6>
-<Identifier, x, 3:7>
-<Binocular Operation, >=, 3:9>
-<Number, 0, 3:12>
-<Delimiter, ), 3:13>
-<Delimiter, {, 3:15>
-<Keyword, while, 4:5>
-<Delimiter, (, 4:10>
-<Identifier, y, 4:11>
-<Binocular Operation, >=, 4:13>
-<Number, 0, 4:16>
-<Delimiter, ), 4:17>
-<Delimiter, {, 4:19>
-<Keyword, print, 5:9>
-<Delimiter, (, 5:15>
-<Identifier, x, 5:16>
-<Delimiter, ), 5:17>
-<Delimiter, ;, 5:18>
-<Keyword, print, 6:9>
-<Delimiter, (, 6:15>
-<Identifier, y, 6:16>
-<Delimiter, ), 6:17>
-<Delimiter, ;, 6:18>
-<Identifier, y, 7:9>
-<Monocular Operation, =, 7:11>
-<Identifier, y, 7:13>
-<Monocular Operation, -, 7:14>
-<Number, 1, 7:15>
-<Delimiter, ;, 7:16>
-<Delimiter, }, 8:5>
-<Identifier, x, 9:5>
-<Monocular Operation, =, 9:7>
-<Identifier, x, 9:9>
-<Monocular Operation, -, 9:11>
-<Number, 1, 9:12>
-<Delimiter, ;, 9:13>
-<Delimiter, }, 10:1>
+<Keyword, int, 4:1>
+<Identifier, n, 4:5>
+<Delimiter, ;, 4:6>
+<Keyword, scan, 5:1>
+<Delimiter, (, 5:5>
+<Identifier, n, 5:6>
+<Delimiter, ), 5:7>
+<Delimiter, ;, 5:8>
+<Keyword, real, 6:1>
+<Identifier, err, 6:6>
+<Monocular Operation, =, 6:10>
+<Number, 1010101010101010.101010101010, 6:12>
+<Delimiter, ;, 6:41>
+<Keyword, real, 7:1>
+<Identifier, clc, 7:6>
+<Monocular Operation, =, 7:10>
+<Number, 1100000000000000.000000000001, 7:12>
+<Delimiter, ;, 7:41>
+<Keyword, int, 8:1>
+<Identifier, a, 8:5>
+<Delimiter, [, 8:6>
+<Identifier, n, 8:7>
+<Delimiter, ], 8:8>
+<Delimiter, ;, 8:9>
+<Keyword, int, 9:1>
+<Identifier, head, 9:5>
+<Monocular Operation, =, 9:10>
+<Number, 0, 9:12>
+<Delimiter, ,, 9:13>
+<Identifier, tail, 9:14>
+<Monocular Operation, =, 9:19>
+<Number, 0, 9:21>
+<Delimiter, ;, 9:22>
+<Keyword, int, 11:1>
+<Identifier, op, 11:5>
+<Delimiter, ;, 11:7>
+<Keyword, real, 12:1>
+<Identifier, operand, 12:6>
+<Delimiter, ;, 12:13>
+<Keyword, scan, 13:1>
+<Delimiter, (, 13:5>
+<Identifier, operand, 13:6>
+<Delimiter, ), 13:13>
+<Delimiter, ;, 13:14>
+<Keyword, scan, 14:1>
+<Delimiter, (, 14:5>
+<Identifier, op, 14:6>
+<Delimiter, ), 14:8>
+<Delimiter, ;, 14:9>
+<Keyword, while, 16:1>
+<Delimiter, (, 16:6>
+<Identifier, operand, 16:7>
+<Binocular Operation, <>, 16:15>
+<Number, 0, 16:18>
+<Delimiter, ), 16:19>
+<Delimiter, {, 16:20>
+<Keyword, if, 17:3>
+<Delimiter, (, 17:5>
+<Identifier, operand, 17:6>
+<Monocular Operation, >, 17:14>
+<Number, 1, 17:16>
+<Delimiter, ), 17:17>
+<Delimiter, {, 17:18>
+<Keyword, int, 19:5>
+<Identifier, isFull, 19:9>
+<Monocular Operation, =, 19:16>
+<Delimiter, (, 19:18>
+<Identifier, tail, 19:19>
+<Monocular Operation, +, 19:24>
+<Number, 1, 19:26>
+<Delimiter, ), 19:27>
+<Monocular Operation, -, 19:29>
+<Delimiter, (, 19:31>
+<Identifier, tail, 19:32>
+<Monocular Operation, +, 19:37>
+<Number, 1, 19:39>
+<Delimiter, ), 19:40>
+<Monocular Operation, /, 19:42>
+<Identifier, n, 19:44>
+<Monocular Operation, *, 19:46>
+<Identifier, n, 19:48>
+<Binocular Operation, ==, 19:51>
+<Identifier, head, 19:54>
+<Delimiter, ;, 19:58>
+<Keyword, if, 20:5>
+<Delimiter, (, 20:7>
+<Identifier, isFull, 20:8>
+<Delimiter, ), 20:14>
+<Delimiter, {, 20:15>
+<Keyword, print, 21:7>
+<Delimiter, (, 21:12>
+<Identifier, err, 21:13>
+<Delimiter, ), 21:16>
+<Delimiter, ;, 21:17>
+<Keyword, break, 22:7>
+<Delimiter, ;, 22:12>
+<Delimiter, }, 23:5>
+<Identifier, a, 24:5>
+<Delimiter, [, 24:6>
+<Identifier, tail, 24:7>
+<Delimiter, ], 24:11>
+<Monocular Operation, =, 24:13>
+<Identifier, op, 24:15>
+<Delimiter, ;, 24:17>
+<Identifier, tail, 25:5>
+<Monocular Operation, =, 25:10>
+<Delimiter, (, 25:12>
+<Identifier, tail, 25:13>
+<Monocular Operation, +, 25:18>
+<Number, 1, 25:20>
+<Delimiter, ), 25:21>
+<Monocular Operation, -, 25:23>
+<Delimiter, (, 25:25>
+<Delimiter, (, 25:26>
+<Identifier, tail, 25:27>
+<Monocular Operation, +, 25:32>
+<Number, 1, 25:34>
+<Delimiter, ), 25:35>
+<Monocular Operation, /, 25:37>
+<Identifier, n, 25:39>
+<Delimiter, ), 25:40>
+<Monocular Operation, *, 25:42>
+<Identifier, n, 25:44>
+<Delimiter, ;, 25:45>
+<Delimiter, }, 26:3>
+<Keyword, else, 26:4>
+<Keyword, if, 26:9>
+<Delimiter, (, 26:11>
+<Identifier, operand, 26:12>
+<Monocular Operation, <, 26:20>
+<Number, -1, 26:22>
+<Delimiter, ), 26:24>
+<Delimiter, {, 26:25>
+<Keyword, int, 28:5>
+<Identifier, isEmpty, 28:9>
+<Monocular Operation, =, 28:17>
+<Identifier, tail, 28:19>
+<Binocular Operation, ==, 28:24>
+<Identifier, head, 28:27>
+<Delimiter, ;, 28:31>
+<Keyword, if, 29:5>
+<Delimiter, (, 29:7>
+<Identifier, isEmpty, 29:8>
+<Delimiter, ), 29:15>
+<Delimiter, {, 29:16>
+<Keyword, print, 30:7>
+<Delimiter, (, 30:12>
+<Number, 0, 30:13>
+<Monocular Operation, -, 30:14>
+<Identifier, err, 30:15>
+<Delimiter, ), 30:18>
+<Delimiter, ;, 30:19>
+<Keyword, break, 31:7>
+<Delimiter, ;, 31:12>
+<Delimiter, }, 32:5>
+<Keyword, print, 33:5>
+<Delimiter, (, 33:10>
+<Identifier, a, 33:11>
+<Delimiter, [, 33:12>
+<Identifier, head, 33:13>
+<Delimiter, ], 33:17>
+<Delimiter, ), 33:18>
+<Delimiter, ;, 33:19>
+<Identifier, head, 34:5>
+<Monocular Operation, =, 34:10>
+<Delimiter, (, 34:12>
+<Identifier, head, 34:13>
+<Monocular Operation, +, 34:18>
+<Number, 1, 34:20>
+<Delimiter, ), 34:21>
+<Monocular Operation, -, 34:23>
+<Delimiter, (, 34:25>
+<Delimiter, (, 34:26>
+<Identifier, head, 34:27>
+<Monocular Operation, +, 34:32>
+<Number, 1, 34:34>
+<Delimiter, ), 34:35>
+<Monocular Operation, /, 34:37>
+<Identifier, n, 34:39>
+<Delimiter, ), 34:41>
+<Monocular Operation, *, 34:43>
+<Identifier, n, 34:45>
+<Delimiter, ;, 34:46>
+<Delimiter, }, 35:3>
+<Keyword, else, 35:5>
+<Delimiter, {, 35:10>
+<Keyword, int, 37:5>
+<Identifier, len, 37:9>
+<Monocular Operation, =, 37:13>
+<Identifier, tail, 37:15>
+<Monocular Operation, -, 37:20>
+<Identifier, head, 37:22>
+<Monocular Operation, -, 37:27>
+<Delimiter, (, 37:29>
+<Identifier, tail, 37:30>
+<Monocular Operation, -, 37:35>
+<Identifier, head, 37:37>
+<Delimiter, ), 37:41>
+<Monocular Operation, /, 37:43>
+<Identifier, n, 37:45>
+<Monocular Operation, *, 37:47>
+<Identifier, n, 37:49>
+<Delimiter, ;, 37:50>
+<Keyword, print, 38:5>
+<Delimiter, (, 38:10>
+<Identifier, len, 38:11>
+<Delimiter, ), 38:14>
+<Delimiter, ;, 38:15>
+<Delimiter, }, 39:3>
+<Keyword, print, 40:3>
+<Delimiter, (, 40:8>
+<Identifier, clc, 40:9>
+<Delimiter, ), 40:12>
+<Delimiter, ;, 40:13>
+<Keyword, scan, 41:3>
+<Delimiter, (, 41:7>
+<Identifier, operand, 41:8>
+<Delimiter, ), 41:15>
+<Delimiter, ;, 41:16>
+<Keyword, scan, 42:3>
+<Delimiter, (, 42:7>
+<Identifier, op, 42:8>
+<Delimiter, ), 42:10>
+<Delimiter, ;, 42:11>
+<Keyword, continue, 43:3>
+<Delimiter, ;, 43:11>
+<Keyword, scan, 44:3>
+<Delimiter, (, 44:7>
+<Identifier, operand, 44:8>
+<Delimiter, ), 44:15>
+<Delimiter, ;, 44:16>
+<Keyword, scan, 45:3>
+<Delimiter, (, 45:7>
+<Identifier, op, 45:8>
+<Delimiter, ), 45:10>
+<Delimiter, ;, 45:11>
+<Delimiter, }, 46:2>

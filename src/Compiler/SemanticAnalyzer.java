@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -23,7 +23,8 @@ public class SemanticAnalyzer {
     private int errorNum = 0;
     private List<String> errorInfo = new ArrayList<>();
 
-    private File inputLocation = new File("./output/in");
+//    private File inputLocation = new File("./Tests/bag-test/beibao11.in");
+    private File inputLocation = new File("./Tests/stack/stack1.in");
 
     private int level = 0;
     private int inputIndex = 0;
@@ -47,7 +48,8 @@ public class SemanticAnalyzer {
             BufferedReader br = new BufferedReader(new FileReader(inputLocation));
             String tmp;
             while ((tmp = br.readLine()) != null && (!tmp.equals(""))) {
-                inputTable.add(tmp);
+                String[] sentence = tmp.split(" ");
+                inputTable.addAll(Arrays.asList(sentence));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,6 +73,11 @@ public class SemanticAnalyzer {
 
     public void Analyse() {
         S(root);
+        System.out.println("There are " + errorNum + " errors in the program!");
+        for (var x :
+                errorInfo) {
+            System.out.println(x);
+        }
     }
 
     private void S(TreeNode node) {
@@ -555,6 +562,7 @@ public class SemanticAnalyzer {
                             }
                             table.add(element);
                     }
+                    tnode = tnode.getChildAt(3);
                 }
                 break;
             case "=":
@@ -567,16 +575,17 @@ public class SemanticAnalyzer {
                             error("此处需要char类型");
                         }
                         // 判断字符是否为空
-                        if (child.getChildAt(1).getChildAt(0).getChildAt(0).getName().equals("'")) {
+                        if (child.getChildAt(1).getChildAt(0).getChildAt(1).getChildAt(0).getName().equals("'")) {
                             te = new TableElement(id, type, level);
                             te.setStringValue("");
                             table.add(te);
                             break;
                         }
-                        next = child.getChildAt(1).getChildAt(0).getChildAt(0).getName();
+                        next = child.getChildAt(1).getChildAt(0).getChildAt(1).getChildAt(0).getName();
                         te = new TableElement(id, type, level);
                         te.setStringValue(next);
                         table.add(te);
+                        break;
                     case "Expression":
                         Value result = Calculate(child.getChildAt(1).getChildAt(0));
                         if (result == null || result.getType() == null) {
@@ -675,6 +684,7 @@ public class SemanticAnalyzer {
                             }
                             table.add(element);
                     }
+                    tnode = tnode.getChildAt(3);
                 }
 
         }

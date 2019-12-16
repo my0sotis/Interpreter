@@ -17,19 +17,21 @@
   }
 
   int a[m+1];
-  i = 0;
-  while(i <= m ){
-    a[i] = 0;
-    i = i + 1;
-  }
+//  i = 0;
+//  while(i <= m) {
+//   a[i] = 0;
+//    i = i + 1;
+//  }
 
   // core
   i = 0;
+  int j = 0;
   while(i < n){
-    int j = m;
+    j = m;
     while(j >= c[i]){
-      if(a[j] < a[j - c[i]] + v[i])
+      if(a[j] < a[j - c[i]] + v[i]){
         a[j] = a[j - c[i]] + v[i];
+       }
       j = j - 1;
     }
     i = i + 1;

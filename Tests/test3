@@ -32,7 +32,7 @@ while(operand <> 0){
     }
     print(a[head]);
     head = (head + 1) - ((head + 1) / n ) * n;
-  }else {
+  } else {
     // print length
     int len = tail - head - (tail - head) / n * n;
     print(len);

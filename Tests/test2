@@ -15,7 +15,7 @@ int b = 1;
 char curc = white;
 int cur = w;
 int n = 3;
-int chess[n][n];
+int chess[n*n];
 int total = 0;
 while(win == 0){
   total = total + 1;
@@ -23,9 +23,9 @@ while(win == 0){
   for(int i = 0;i < n;i = i + 1){
     print(z);
     for(int j = 0; j < n;j = j + 1){
-      if(chess[i][j] == w)
+      if(chess[i*n+j] == w)
         print(white);
-      else if(chess[i][j] == b)
+      else if(chess[i*n+j] == b)
         print(black);
       else print(' ');
       print(' ');
@@ -47,25 +47,25 @@ while(win == 0){
     print("out of border\n");
     break;
   }
-  if(chess[i][j] <> 0){
+  if(chess[i*n+j] <> 0){
     print(err);
     print("illegal step\n");
     break;
   }
 
-  chess[i][j] = cur;
+  chess[i*n+j] = cur;
 
   // search for win
   int count1,count2 ,count3 ,count4 = 0;
   count1 = count2 = count3 = 0;
   for(int k = 0; k < n;k  = k + 1){
-    if(chess[i][k] == cur)
+    if(chess[i*n+k] == cur)
       count1 = count1 + 1;
-    if(chess[k][j] == cur)
+    if(chess[k*n+j] == cur)
       count2 = count2 + 1;
-    if(chess[k][k] == cur)
+    if(chess[k*n+k] == cur)
       count3 = count3 + 1;
-    if(chess[k][n - k - 1] == cur)
+    if(chess[k*n+n - k - 1] == cur)
       count4 = count4 + 1;
   }
 

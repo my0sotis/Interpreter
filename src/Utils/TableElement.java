@@ -56,6 +56,10 @@ public class TableElement {
         this.intValue = intValue;
     }
 
+    public void setArrayAt(int index, Value value) {
+        array.set(index, value);
+    }
+
     public String getRealValue() {
         return realValue;
     }

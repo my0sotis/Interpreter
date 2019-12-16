@@ -1,11 +1,13 @@
 // 01 bag with dynamic algorithm
 // basic test for no.6
 
-  int m,n;
+  int m = 0;
+  int n = 0;
   scan(n); // number
   scan(m); // bag volume
 
-  int v[n],c[n]; // value cost
+  int v[n]; // value cost
+  int c[n];
 
   int i = 0;
   while(i < n){

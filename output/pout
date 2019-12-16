@@ -1,37 +1,304 @@
-[$, S]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =, ], [, identifier, char]   S->SS S
-[$, S, SS]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =, ], [, identifier, char]   SS->State
-[$, S, State]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =, ], [, identifier, char]   State->char identifier State1
-[$, S, State1, identifier, char]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =, ], [, identifier, char]   
-[$, S, State1, identifier]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =, ], [, identifier]   
-[$, S, State1]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =, ], []   State1->[ Array State2 ;
-[$, S, ;, State2, Array, []   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =, ], []   
-[$, S, ;, State2, Array]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =, ]]   Array->] Array1
-[$, S, ;, State2, Array1, ]]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =, ]]   
-[$, S, ;, State2, Array1]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =]   Array1->= Array2
-[$, S, ;, State2, Array2, =]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {, =]   
-[$, S, ;, State2, Array2]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {]   Array2->{ Value4 Element }
-[$, S, ;, State2, }, Element, Value4, {]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ', {]   
-[$, S, ;, State2, }, Element, Value4]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ']   Value4->Character
-[$, S, ;, State2, }, Element, Character]   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ']   Character->' Char1
-[$, S, ;, State2, }, Element, Char1, ']   [$, ;, identifier, ,, }, ', string, ', ,, ', string, ']   
-[$, S, ;, State2, }, Element, Char1]   [$, ;, identifier, ,, }, ', string, ', ,, ', string]   Char1->string '
-[$, S, ;, State2, }, Element, ', string]   [$, ;, identifier, ,, }, ', string, ', ,, ', string]   
-[$, S, ;, State2, }, Element, ']   [$, ;, identifier, ,, }, ', string, ', ,, ']   
-[$, S, ;, State2, }, Element]   [$, ;, identifier, ,, }, ', string, ', ,]   Element->, Value4 Element
-[$, S, ;, State2, }, Element, Value4, ,]   [$, ;, identifier, ,, }, ', string, ', ,]   
-[$, S, ;, State2, }, Element, Value4]   [$, ;, identifier, ,, }, ', string, ']   Value4->Character
-[$, S, ;, State2, }, Element, Character]   [$, ;, identifier, ,, }, ', string, ']   Character->' Char1
-[$, S, ;, State2, }, Element, Char1, ']   [$, ;, identifier, ,, }, ', string, ']   
-[$, S, ;, State2, }, Element, Char1]   [$, ;, identifier, ,, }, ', string]   Char1->string '
-[$, S, ;, State2, }, Element, ', string]   [$, ;, identifier, ,, }, ', string]   
-[$, S, ;, State2, }, Element, ']   [$, ;, identifier, ,, }, ']   
-[$, S, ;, State2, }, Element]   [$, ;, identifier, ,, }]   Element->ε
-[$, S, ;, State2, }]   [$, ;, identifier, ,, }]   
-[$, S, ;, State2]   [$, ;, identifier, ,]   State2->, identifier State3 State2
-[$, S, ;, State2, State3, identifier, ,]   [$, ;, identifier, ,]   
-[$, S, ;, State2, State3, identifier]   [$, ;, identifier]   
-[$, S, ;, State2, State3]   [$, ;]   State3->ε
-[$, S, ;, State2]   [$, ;]   State2->ε
-[$, S, ;]   [$, ;]   
+[$, S]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number, =, identifier, int]   S->SS S
+[$, S, SS]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number, =, identifier, int]   SS->State
+[$, S, State]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number, =, identifier, int]   State->int identifier State1
+[$, S, State1, identifier, int]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number, =, identifier, int]   
+[$, S, State1, identifier]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number, =, identifier]   
+[$, S, State1]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number, =]   State1->= Value4 State2 ;
+[$, S, ;, State2, Value4, =]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number, =]   
+[$, S, ;, State2, Value4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   Value4->Expression
+[$, S, ;, State2, Expression]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   Expression->E2 E1'
+[$, S, ;, State2, E1', E2]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E2->E3 E2'
+[$, S, ;, State2, E1', E2', E3]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E3->E4 E3'
+[$, S, ;, State2, E1', E2', E3', E4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E4->E5 E4'
+[$, S, ;, State2, E1', E2', E3', E4', E5]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E5->E6 E5'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E6->E7 E6'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E7->E8 E7'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E8->E9 E8'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E9->E10 E9'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E10->E11 E10'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   E11->Value
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   Value->number
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', number]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;, number]   
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E10'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E9'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E8'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E7'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E6'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E5'->ε
+[$, S, ;, State2, E1', E2', E3', E4']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E4'->ε
+[$, S, ;, State2, E1', E2', E3']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E3'->ε
+[$, S, ;, State2, E1', E2']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E2'->ε
+[$, S, ;, State2, E1']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   E1'->ε
+[$, S, ;, State2]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   State2->ε
+[$, S, ;]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int, ;]   
+[$, S]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int]   S->SS S
+[$, S, SS]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int]   SS->State
+[$, S, State]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int]   State->int identifier State1
+[$, S, State1, identifier, int]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier, int]   
+[$, S, State1, identifier]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =, identifier]   
+[$, S, State1]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =]   State1->= Value4 State2 ;
+[$, S, ;, State2, Value4, =]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number, =]   
+[$, S, ;, State2, Value4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   Value4->Expression
+[$, S, ;, State2, Expression]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   Expression->E2 E1'
+[$, S, ;, State2, E1', E2]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E2->E3 E2'
+[$, S, ;, State2, E1', E2', E3]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E3->E4 E3'
+[$, S, ;, State2, E1', E2', E3', E4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E4->E5 E4'
+[$, S, ;, State2, E1', E2', E3', E4', E5]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E5->E6 E5'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E6->E7 E6'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E7->E8 E7'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E8->E9 E8'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E9->E10 E9'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E10->E11 E10'
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   E11->Value
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   Value->number
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', number]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;, number]   
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E10'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E9'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E8'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6', E7']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E7'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5', E6']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E6'->ε
+[$, S, ;, State2, E1', E2', E3', E4', E5']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E5'->ε
+[$, S, ;, State2, E1', E2', E3', E4']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E4'->ε
+[$, S, ;, State2, E1', E2', E3']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E3'->ε
+[$, S, ;, State2, E1', E2']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E2'->ε
+[$, S, ;, State2, E1']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   E1'->ε
+[$, S, ;, State2]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   State2->ε
+[$, S, ;]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while, ;]   
+[$, S]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while]   S->L S
+[$, S, L]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while]   L->While
+[$, S, While]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while]   While->while ( Expression ) While
+[$, S, While, ), Expression, (, while]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (, while]   
+[$, S, While, ), Expression, (]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier, (]   
+[$, S, While, ), Expression]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   Expression->E2 E1'
+[$, S, While, ), E1', E2]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E2->E3 E2'
+[$, S, While, ), E1', E2', E3]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E3->E4 E3'
+[$, S, While, ), E1', E2', E3', E4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E4->E5 E4'
+[$, S, While, ), E1', E2', E3', E4', E5]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E5->E6 E5'
+[$, S, While, ), E1', E2', E3', E4', E5', E6]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E6->E7 E6'
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E7->E8 E7'
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E8->E9 E8'
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E9->E10 E9'
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E10->E11 E10'
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   E11->Value
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   Value->identifier E13
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13, identifier]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=, identifier]   
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=]   E13->ε
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=]   E10'->ε
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=]   E9'->ε
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=]   E8'->ε
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=]   E7'->>= E8 E7'
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8, >=]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number, >=]   
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number]   E8->E9 E8'
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number]   E9->E10 E9'
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number]   E10->E11 E10'
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number]   E11->Value
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number]   Value->number
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', number]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, ), number]   
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E10'->ε
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E9'->ε
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E8'->ε
+[$, S, While, ), E1', E2', E3', E4', E5', E6', E7']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E7'->ε
+[$, S, While, ), E1', E2', E3', E4', E5', E6']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E6'->ε
+[$, S, While, ), E1', E2', E3', E4', E5']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E5'->ε
+[$, S, While, ), E1', E2', E3', E4']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E4'->ε
+[$, S, While, ), E1', E2', E3']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E3'->ε
+[$, S, While, ), E1', E2']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E2'->ε
+[$, S, While, ), E1']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   E1'->ε
+[$, S, While, )]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {, )]   
+[$, S, While]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {]   While->WhileContent
+[$, S, WhileContent]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {]   WhileContent->{ S }
+[$, S, }, S, {]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while, {]   
+[$, S, }, S]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while]   S->L S
+[$, S, }, S, L]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while]   L->While
+[$, S, }, S, While]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while]   While->while ( Expression ) While
+[$, S, }, S, While, ), Expression, (, while]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (, while]   
+[$, S, }, S, While, ), Expression, (]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier, (]   
+[$, S, }, S, While, ), Expression]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   Expression->E2 E1'
+[$, S, }, S, While, ), E1', E2]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E2->E3 E2'
+[$, S, }, S, While, ), E1', E2', E3]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E3->E4 E3'
+[$, S, }, S, While, ), E1', E2', E3', E4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E4->E5 E4'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E5->E6 E5'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E6->E7 E6'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E7->E8 E7'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E8->E9 E8'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E9->E10 E9'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E10->E11 E10'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   E11->Value
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   Value->identifier E13
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13, identifier]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=, identifier]   
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=]   E13->ε
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=]   E10'->ε
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=]   E9'->ε
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=]   E8'->ε
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=]   E7'->>= E8 E7'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8, >=]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number, >=]   
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number]   E8->E9 E8'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number]   E9->E10 E9'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number]   E10->E11 E10'
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number]   E11->Value
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number]   Value->number
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', number]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, ), number]   
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E10'->ε
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E9'->ε
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E8'->ε
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6', E7']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E7'->ε
+[$, S, }, S, While, ), E1', E2', E3', E4', E5', E6']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E6'->ε
+[$, S, }, S, While, ), E1', E2', E3', E4', E5']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E5'->ε
+[$, S, }, S, While, ), E1', E2', E3', E4']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E4'->ε
+[$, S, }, S, While, ), E1', E2', E3']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E3'->ε
+[$, S, }, S, While, ), E1', E2']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E2'->ε
+[$, S, }, S, While, ), E1']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   E1'->ε
+[$, S, }, S, While, )]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {, )]   
+[$, S, }, S, While]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {]   While->WhileContent
+[$, S, }, S, WhileContent]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {]   WhileContent->{ S }
+[$, S, }, S, }, S, {]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print, {]   
+[$, S, }, S, }, S]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print]   S->SS S
+[$, S, }, S, }, S, SS]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print]   SS->Print
+[$, S, }, S, }, S, Print]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print]   Print->print ( PrintItem
+[$, S, }, S, }, S, PrintItem, (, print]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (, print]   
+[$, S, }, S, }, S, PrintItem, (]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier, (]   
+[$, S, }, S, }, S, PrintItem]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   PrintItem->Expression ) ;
+[$, S, }, S, }, S, ;, ), Expression]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   Expression->E2 E1'
+[$, S, }, S, }, S, ;, ), E1', E2]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E2->E3 E2'
+[$, S, }, S, }, S, ;, ), E1', E2', E3]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E3->E4 E3'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E4->E5 E4'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E5->E6 E5'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E6->E7 E6'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E7->E8 E7'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E8->E9 E8'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E9->E10 E9'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E10->E11 E10'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   E11->Value
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   Value->identifier E13
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13, identifier]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, ), identifier]   
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E13->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E10'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E9'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E8'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E7'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E6'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E5'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E4'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E3'->ε
+[$, S, }, S, }, S, ;, ), E1', E2']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E2'->ε
+[$, S, }, S, }, S, ;, ), E1']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   E1'->ε
+[$, S, }, S, }, S, ;, )]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;, )]   
+[$, S, }, S, }, S, ;]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print, ;]   
+[$, S, }, S, }, S]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print]   S->SS S
+[$, S, }, S, }, S, SS]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print]   SS->Print
+[$, S, }, S, }, S, Print]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print]   Print->print ( PrintItem
+[$, S, }, S, }, S, PrintItem, (, print]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (, print]   
+[$, S, }, S, }, S, PrintItem, (]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier, (]   
+[$, S, }, S, }, S, PrintItem]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   PrintItem->Expression ) ;
+[$, S, }, S, }, S, ;, ), Expression]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   Expression->E2 E1'
+[$, S, }, S, }, S, ;, ), E1', E2]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E2->E3 E2'
+[$, S, }, S, }, S, ;, ), E1', E2', E3]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E3->E4 E3'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E4->E5 E4'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E5->E6 E5'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E6->E7 E6'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E7->E8 E7'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E8->E9 E8'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E9->E10 E9'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E10->E11 E10'
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   E11->Value
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   Value->identifier E13
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13, identifier]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, ), identifier]   
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E13->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E10'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E9'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E8'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6', E7']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E7'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5', E6']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E6'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4', E5']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E5'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3', E4']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E4'->ε
+[$, S, }, S, }, S, ;, ), E1', E2', E3']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E3'->ε
+[$, S, }, S, }, S, ;, ), E1', E2']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E2'->ε
+[$, S, }, S, }, S, ;, ), E1']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   E1'->ε
+[$, S, }, S, }, S, ;, )]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;, )]   
+[$, S, }, S, }, S, ;]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier, ;]   
+[$, S, }, S, }, S]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier]   S->SS S
+[$, S, }, S, }, S, SS]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier]   SS->Assign ;
+[$, S, }, S, }, S, ;, Assign]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier]   Assign->identifier Assign1 State2
+[$, S, }, S, }, S, ;, State2, Assign1, identifier]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =, identifier]   
+[$, S, }, S, }, S, ;, State2, Assign1]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =]   Assign1->= Value4
+[$, S, }, S, }, S, ;, State2, Value4, =]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier, =]   
+[$, S, }, S, }, S, ;, State2, Value4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   Value4->Expression
+[$, S, }, S, }, S, ;, State2, Expression]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   Expression->E2 E1'
+[$, S, }, S, }, S, ;, State2, E1', E2]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E2->E3 E2'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E3->E4 E3'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E4->E5 E4'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E5->E6 E5'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E6->E7 E6'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E7->E8 E7'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E8->E9 E8'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E9->E10 E9'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E10->E11 E10'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   E11->Value
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   Value->identifier E13
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13, identifier]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -, identifier]   
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -]   E13->ε
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -]   E10'->ε
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -]   E9'->- E10 E9'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10, -]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number, -]   
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number]   E10->E11 E10'
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number]   E11->Value
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number]   Value->number
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', number]   [$, }, ;, number, -, identifier, =, identifier, }, ;, number]   
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E10'->ε
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E9'->ε
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E8'->ε
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E7'->ε
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E6'->ε
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4', E5']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E5'->ε
+[$, S, }, S, }, S, ;, State2, E1', E2', E3', E4']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E4'->ε
+[$, S, }, S, }, S, ;, State2, E1', E2', E3']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E3'->ε
+[$, S, }, S, }, S, ;, State2, E1', E2']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E2'->ε
+[$, S, }, S, }, S, ;, State2, E1']   [$, }, ;, number, -, identifier, =, identifier, }, ;]   E1'->ε
+[$, S, }, S, }, S, ;, State2]   [$, }, ;, number, -, identifier, =, identifier, }, ;]   State2->ε
+[$, S, }, S, }, S, ;]   [$, }, ;, number, -, identifier, =, identifier, }, ;]   
+[$, S, }, S, }, S]   [$, }, ;, number, -, identifier, =, identifier, }]   S->ε
+[$, S, }, S, }]   [$, }, ;, number, -, identifier, =, identifier, }]   
+[$, S, }, S]   [$, }, ;, number, -, identifier, =, identifier]   S->SS S
+[$, S, }, S, SS]   [$, }, ;, number, -, identifier, =, identifier]   SS->Assign ;
+[$, S, }, S, ;, Assign]   [$, }, ;, number, -, identifier, =, identifier]   Assign->identifier Assign1 State2
+[$, S, }, S, ;, State2, Assign1, identifier]   [$, }, ;, number, -, identifier, =, identifier]   
+[$, S, }, S, ;, State2, Assign1]   [$, }, ;, number, -, identifier, =]   Assign1->= Value4
+[$, S, }, S, ;, State2, Value4, =]   [$, }, ;, number, -, identifier, =]   
+[$, S, }, S, ;, State2, Value4]   [$, }, ;, number, -, identifier]   Value4->Expression
+[$, S, }, S, ;, State2, Expression]   [$, }, ;, number, -, identifier]   Expression->E2 E1'
+[$, S, }, S, ;, State2, E1', E2]   [$, }, ;, number, -, identifier]   E2->E3 E2'
+[$, S, }, S, ;, State2, E1', E2', E3]   [$, }, ;, number, -, identifier]   E3->E4 E3'
+[$, S, }, S, ;, State2, E1', E2', E3', E4]   [$, }, ;, number, -, identifier]   E4->E5 E4'
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5]   [$, }, ;, number, -, identifier]   E5->E6 E5'
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6]   [$, }, ;, number, -, identifier]   E6->E7 E6'
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7]   [$, }, ;, number, -, identifier]   E7->E8 E7'
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8]   [$, }, ;, number, -, identifier]   E8->E9 E8'
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9]   [$, }, ;, number, -, identifier]   E9->E10 E9'
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number, -, identifier]   E10->E11 E10'
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number, -, identifier]   E11->Value
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number, -, identifier]   Value->identifier E13
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13, identifier]   [$, }, ;, number, -, identifier]   
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E13]   [$, }, ;, number, -]   E13->ε
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;, number, -]   E10'->ε
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;, number, -]   E9'->- E10 E9'
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10, -]   [$, }, ;, number, -]   
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10]   [$, }, ;, number]   E10->E11 E10'
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', E11]   [$, }, ;, number]   E11->Value
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', Value]   [$, }, ;, number]   Value->number
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10', number]   [$, }, ;, number]   
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9', E10']   [$, }, ;]   E10'->ε
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8', E9']   [$, }, ;]   E9'->ε
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7', E8']   [$, }, ;]   E8'->ε
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6', E7']   [$, }, ;]   E7'->ε
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5', E6']   [$, }, ;]   E6'->ε
+[$, S, }, S, ;, State2, E1', E2', E3', E4', E5']   [$, }, ;]   E5'->ε
+[$, S, }, S, ;, State2, E1', E2', E3', E4']   [$, }, ;]   E4'->ε
+[$, S, }, S, ;, State2, E1', E2', E3']   [$, }, ;]   E3'->ε
+[$, S, }, S, ;, State2, E1', E2']   [$, }, ;]   E2'->ε
+[$, S, }, S, ;, State2, E1']   [$, }, ;]   E1'->ε
+[$, S, }, S, ;, State2]   [$, }, ;]   State2->ε
+[$, S, }, S, ;]   [$, }, ;]   
+[$, S, }, S]   [$, }]   S->ε
+[$, S, }]   [$, }]   
 [$, S]   [$]   S->ε
 [$]   [$]   

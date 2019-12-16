@@ -23,18 +23,9 @@ public class SemanticAnalyzer {
     private int errorNum = 0;
     private List<String> errorInfo = new ArrayList<>();
 
-    private final File dataLocation = new File("./output/data.table");
-    private final File stringLocation = new File("./output/string.table");
-    private final File variableLocation = new File("./output/variable.table");
     private File inputLocation = new File("./output/in");
 
     private int level = 0;
-    private List<String> dataTable = new ArrayList<>();
-    private int dataIndex = 0;
-    private List<String> stringTable = new ArrayList<>();
-    private int stringIndex = 0;
-    private List<String> variableTable = new ArrayList<>();
-    private int variableIndex = 0;
     private int inputIndex = 0;
     private List<String> inputTable = new ArrayList<>();
 
@@ -43,56 +34,11 @@ public class SemanticAnalyzer {
 
     public SemanticAnalyzer(TreeNode node) {
         root = node;
-        LoadDataTable();
-        LoadStringTable();
-        LoadVariableTable();
         LoadInputTable();
     }
 
     public void setRoot(TreeNode root) {
         this.root = root;
-    }
-
-    private void LoadDataTable() {
-        try {
-            dataTable.clear();
-            BufferedReader br = new BufferedReader(new FileReader(dataLocation));
-            String tmp;
-            while ((tmp = br.readLine()) != null && (!tmp.equals(""))) {
-                dataTable.add(tmp);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("文件读取失败");
-        }
-    }
-
-    private void LoadStringTable() {
-        try {
-            stringTable.clear();
-            BufferedReader br = new BufferedReader(new FileReader(stringLocation));
-            String tmp;
-            while ((tmp = br.readLine()) != null && (!tmp.equals(""))) {
-                stringTable.add(tmp);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("文件读取失败");
-        }
-    }
-
-    private void LoadVariableTable() {
-        try {
-            variableTable.clear();
-            BufferedReader br = new BufferedReader(new FileReader(variableLocation));
-            String tmp;
-            while ((tmp = br.readLine()) != null && (!tmp.equals(""))) {
-                variableTable.add(tmp);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("文件读取失败");
-        }
     }
 
     private void LoadInputTable() {
@@ -107,30 +53,6 @@ public class SemanticAnalyzer {
             e.printStackTrace();
             System.out.println("文件读取失败");
         }
-    }
-
-    private String getNextData() {
-        if (dataIndex >= dataTable.size()) {
-            error("Cannot get number");
-            return null;
-        }
-        return dataTable.get(dataIndex++);
-    }
-
-    private String getNextString() {
-        if (stringIndex >= stringTable.size()) {
-            error("Cannot get number");
-            return null;
-        }
-        return stringTable.get(stringIndex++);
-    }
-
-    private String getNextVariable() {
-        if (variableIndex >= variableTable.size()) {
-            error("Cannot get number");
-            return null;
-        }
-        return variableTable.get(variableIndex++);
     }
 
     private String getNextInput() {
@@ -149,44 +71,38 @@ public class SemanticAnalyzer {
 
     public void Analyse() {
         S(root);
-        for (var x :
-                table.getSymbolTable()) {
-            System.out.println(x.getName());
-            System.out.println(x.getType());
-            if (x.getType().equals("array")) {
-                for (var y :
-                        x.getArray()) {
-                    System.out.println(y.getValue());
-                }
-            }
-        }
-        System.out.println();
-//        System.out.println(x.getValue());
     }
 
     private void S(TreeNode node) {
+        if (isBreak || isContinue) return;
         for (int i = 0; i < node.getChildrenNum(); i++) {
             TreeNode current = node.getChildAt(i);
             String content = current.getName();
-            if (content.equals("C")) {
-
-            } else if (content.equals("SS")) {
-                SS(current);
-            } else if (content.equals("L")) {
-
-            } else if (content.equals("S")) {
-                S(current);
+            switch (content) {
+                case "C":
+                    C(current);
+                    break;
+                case "SS":
+                    SS(current);
+                    break;
+                case "L":
+                    L(current);
+                    break;
+                case "S":
+                    S(current);
+                    break;
             }
         }
     }
 
     private void SS(TreeNode node) {
+        if (isBreak || isContinue) return;
         for (int i = 0; i < node.getChildrenNum(); i++) {
             TreeNode current = node.getChildAt(i);
             String content = current.getName();
             switch (content) {
                 case "Jump":
-
+                    Jump(current);
                     break;
                 case "Print":
                     Print(current);
@@ -204,81 +120,236 @@ public class SemanticAnalyzer {
         }
     }
 
-    private void Assign(TreeNode node) {
-        TreeNode leftNode = node.getChildAt(0);
-        String leftValue = getNextVariable();
-        if (leftValue == null) {
-            error("获取不到对应的变量值");
-            return;
+    private void Jump(TreeNode node) {
+        if (isBreak || isContinue) return;
+        if (whileNum > 0 || forNum > 0) {
+            TreeNode child = node.getChildAt(0);
+            if (child.getName().equals("break")) {
+                isBreak = true;
+            } else {
+                isContinue = true;
+            }
+        } else {
+            error("没有任何循环，无法跳出");
         }
+    }
+
+    private void Assign(TreeNode node) {
+        if (isContinue || isBreak) return;
+        String leftValue = node.getChildAt(0).getName();
         TableElement te = table.getElementAllLever(leftValue, level);
         if (te != null) {
             TreeNode assign1 = node.getChildAt(1);
             if (assign1.getChildAt(0).getName().equals("=")) {
-                switch (assign1.getChildAt(1).getChildAt(0).getName()) {
-                    case "Character":
-                        if (!te.getType().equals("char")) {
-                            error("此处需要字符型！");
-                            return;
-                        }
-                        // 判断字符是否为空
-                        if (assign1.getChildAt(1).getChildAt(0).getChildAt(0).getName().equals("'")) {
-                            te.setStringValue("");
-                            return;
-                        }
-                        te.setStringValue(getNextString());
-                        break;
-                    case "Expression":
-                        Value result = Calculate(assign1.getChildAt(1).getChildAt(0));
-                        if (result == null || result.getType() == null) {
-                            error("表达式有误！");
-                            return;
-                        }
-                        if (!te.getType().equals("int") || !te.getType().equals("real")) {
-                            error("此处需要数值而非其他！");
-                            return;
-                        }
-                        String targetType = te.getType();
-                        String resultType = result.getType();
-                        if (resultType.equals("real")) {
-                            if (targetType.equals("real")) {
-                                te.setRealValue(result.getValue());
-                            } else {
-                                error("此处需要int，而不是real类型");
-                            }
-                        } else {
-                            if (targetType.equals("real")) {
-                                te.setRealValue(result.getValue());
-                            } else {
-                                te.setIntValue(result.getValue());
-                            }
+                // = Values
+                Value res = Value4(assign1.getChildAt(1));
+                if (res == null) {
+                    error("表达式错误");
+                    return;
+                }
+                switch (res.getType()) {
+                    case "int":
+                        switch (te.getType()) {
+                            case "int":
+                                te.setIntValue(res.getValue());
+                                break;
+                            case "real":
+                                te.setRealValue(res.getValue());
+                                break;
+                            case "char":
+                                te.setStringValue(res.getValue());
+                                break;
+                            case "array":
+                                te.setArray(getValueList(getListFromString(res.getValue())));
+                                break;
                         }
                         break;
-                    case "String":
-                        if (!te.getType().equals("array")) {
-                            error("此处需要字符数组！");
-                            return;
+                    case "real":
+                        switch (te.getType()) {
+                            case "int":
+                                error("无法将real强制转换为int");
+                                break;
+                            case "real":
+                                te.setRealValue(res.getValue());
+                                break;
+                            case "char":
+                                te.setStringValue(res.getValue());
+                                break;
+                            case "array":
+                                te.setArray(getValueList(getListFromString(res.getValue())));
+                                break;
                         }
-                        // 判断字符是否为空
-                        if (assign1.getChildAt(1).getChildAt(0).getChildAt(0).getName().equals("\"")) {
-                            te.setArray(Collections.singletonList(new Value("char", "")));
-                            return;
+                        break;
+                    case "char":
+                        switch (te.getType()) {
+                            case "int":
+                            case "real":
+                                error("无法将数值强制转换为char");
+                                break;
+                            case "char":
+                                te.setStringValue(res.getValue());
+                                break;
+                            case "array":
+                                te.setArray(getValueList(getListFromString(res.getValue())));
+                                break;
                         }
-                        String next = getNextString();
-                        if (next == null) {
-                            error("没有String数值了");
-                            return;
-                        }
-                        te.setArray(getValueList(getListFromString(next)));
                         break;
                 }
             } else {
-                TreeNode tmp = assign1.getChildAt(1);
+                // [ Arrays
                 if (!te.getType().equals("array")) {
                     error("获取的值并非Array");
                     return;
                 }
+                String type = te.getArrayElementAt(0).getType();
+                TreeNode array = assign1.getChildAt(1);
+                if (array.getChildAt(0).getName().equals("Expression")) {
+                    Value res = Calculate(array.getChildAt(0));
+                    if (res == null) {
+                        error("数组索引有误");
+                        return;
+                    }
+                    if (!res.getType().equals("int")) {
+                        error("数组长度不可为real");
+                        return;
+                    }
+                    TreeNode array1 = array.getChildAt(2);
+                    if ("=".equals(array1.getChildAt(0).getName())) {
+                        TreeNode array2 = array1.getChildAt(1);
+                        // Operations
+                        String str;
+                        switch (array2.getChildAt(0).getName()) {
+                            case "Character":
+                                if (!type.equals("char")) {
+                                    error("此处需要char类型");
+                                    return;
+                                }
+                                // 判断字符是否为空
+                                if (array2.getChildAt(0).getChildAt(1).getChildAt(0).getName().equals("'")) {
+                                    te.setArrayAt(Integer.parseInt(res.getValue()), new Value("char", ""));
+                                    break;
+                                }
+                                str = array2.getChildAt(0).getChildAt(1).getChildAt(0).getName();
+                                te.setArrayAt(Integer.parseInt(res.getValue()), new Value("char", str));
+                            case "Expression":
+                                Value result = Calculate(array2.getChildAt(0));
+                                if (result == null || result.getType() == null) {
+                                    error("表达式有误！");
+                                    return;
+                                }
+                                switch (type) {
+                                    case "int":
+                                        switch (result.getType()) {
+                                            case "int":
+//                                                te.setIntValue(result.getValue());
+                                                te.setArrayAt(Integer.parseInt(res.getValue()), new Value("int", result.getValue()));
+                                                break;
+                                            case "real":
+                                                error("无法将real强制转换为int");
+                                                break;
+                                            case "char":
+                                                te.setArrayAt(Integer.parseInt(res.getValue()), new Value("int", result.getValue()));
+                                                break;
+                                        }
+                                        break;
+                                    case "real":
+                                        switch (result.getType()) {
+                                            case "int":
+                                            case "real":
+                                                te.setArrayAt(Integer.parseInt(res.getValue()), new Value("real", result.getValue()));
+                                                break;
+                                            case "char":
+                                                error("无法得到一个real类型的值");
+                                                break;
+                                        }
+                                        break;
+                                    case "char":
+                                        te.setStringValue(result.getValue());
+                                        break;
+                                }
+                        }
+                    }
+
+
+//                    List<Value> values = new ArrayList<>();
+//                    for (int i = 0; i < Integer.parseInt(res.getValue()); i++) {
+//                        values.add(new Value(type));
+//                    }
+//                    te.setArray(values);
+
+                }
+                TreeNode array1 = array.getChildAt(array.getChildrenNum()-1);
+                if ("=".equals(array1.getChildAt(0).getName())) {
+                    TreeNode array2 = array1.getChildAt(1);
+                    if (array2.getChildAt(0).getName().equals("{")) {
+//                            int x = 1;
+                        List<Value> values = new ArrayList<>();
+                        values.add(Value4(array2.getChildAt(1)));
+                        TreeNode temp = array2.getChildAt(2);
+                        while (temp.getChildrenNum() != 1) {
+                            values.add(Value4(temp.getChildAt(1)));
+                            temp = temp.getChildAt(2);
+                        }
+                        te.setArray(values);
+                    } else if (array2.getChildAt(0).getName().equals("String")) {
+                        String x = getString(array2.getChildAt(0));
+                        if (x == null) {
+                            error("未找到对应字符串");
+                            return;
+                        }
+                        te.setArray(getValueList(getListFromString(x)));
+                    } else {
+                        Value res = Calculate(array2.getChildAt(0));
+                        if (res == null) {
+                            error("数组索引错误");
+                            return;
+                        }
+
+                    }
+                }
+                TreeNode tnode = node.getChildAt(2);
+                while (tnode.getChildrenNum() != 1) {
+                    if ("=".equals(tnode.getChildAt(2).getChildAt(0).getName())) {
+                        Value x = Value4(tnode.getChildAt(2).getChildAt(1));
+                        if (x == null) {
+                            error("数值有误");
+                            return;
+                        }
+                        switch (type) {
+                            case "int":
+                                switch (x.getType()) {
+                                    case "int":
+                                        te.setIntValue(x.getValue());
+                                        break;
+                                    case "real":
+                                        error("无法将real转换为int");
+                                        return;
+                                    case "char":
+                                        te.setIntValue(String.valueOf(Integer.valueOf(x.getValue())));
+                                        break;
+                                }
+                                break;
+                            case "real":
+                                switch (x.getType()) {
+                                    case "int":
+                                        te.setRealValue(x.getValue());
+                                        break;
+                                    case "real":
+                                        te.setRealValue(x.getValue());
+                                        return;
+                                    case "char":
+                                        te.setRealValue(String.valueOf(Integer.valueOf(x.getValue())));
+                                        break;
+                                }
+                                break;
+                            case "char":
+                                te.setStringValue(x.getValue());
+                                break;
+                        }
+                    }
+                }
             }
+
         } else {
             String info = "变量" + leftValue +"未在使用前声明。";
             error(info);
@@ -304,18 +375,14 @@ public class SemanticAnalyzer {
         if (node.getChildAt(1).getChildAt(0).getName().equals("\"")) {
             return "";
         } else {
-            String res = getNextString();
-            if (res == null) {
-                error("未找到对应String");
-                return null;
-            }
-            return res;
+            return node.getChildAt(1).getChildAt(0).getName();
         }
     }
 
     private void State(TreeNode node) {
+        if (isBreak || isContinue) return;
         String type = node.getChildAt(0).getName();
-        String id = getNextVariable();
+        String id = node.getChildAt(1).getName();
         TableElement element;
         if (id == null) {
             error("无法读取下一个变量");
@@ -328,7 +395,7 @@ public class SemanticAnalyzer {
                 table.add(element);
                 TreeNode tnode = child.getChildAt(0);
                 while (tnode.getChildrenNum() != 1) {
-                    String tid = getNextVariable();
+                    String tid = child.getChildAt(0).getChildAt(0).getChildAt(1).getName();
                     if (tid == null) {
                         error("找不到对应变量值");
                         return;
@@ -409,15 +476,21 @@ public class SemanticAnalyzer {
                     case "=":
                         TreeNode array2 = array1.getChildAt(1);
                         if (array2.getChildAt(0).getName().equals("{")) {
-//                            int x = 1;
-                            List<Value> values = new ArrayList<>();
-                            values.add(Value4(array2.getChildAt(1)));
+                            int x = 0;
+//                            List<Value> values = new ArrayList<>();
+                            element.setArrayAt(x, Value4(array2.getChildAt(1)));
+                            x++;
                             TreeNode temp = array2.getChildAt(2);
                             while (temp.getChildrenNum() != 1) {
-                                values.add(Value4(temp.getChildAt(1)));
+                                if (x >= element.getArray().size()) {
+                                    error("超出最大范围");
+                                    return;
+                                }
+                                element.setArrayAt(x, Value4(temp.getChildAt(1)));
+                                x++;
                                 temp = temp.getChildAt(2);
                             }
-                            element.setArray(values);
+//                            element.setArray(values);
                             table.add(element);
                             break;
                         } else {
@@ -432,7 +505,7 @@ public class SemanticAnalyzer {
                 }
                 tnode = child.getChildAt(2);
                 while (tnode.getChildrenNum() != 1) {
-                    String tid = getNextVariable();
+                    String tid = tnode.getChildAt(1).getName();
                     if (tid == null) {
                         error("找不到对应变量值");
                         return;
@@ -500,11 +573,7 @@ public class SemanticAnalyzer {
                             table.add(te);
                             break;
                         }
-                        next = getNextString();
-                        if (next == null) {
-                            error("无法获取下一个string");
-                            return;
-                        }
+                        next = child.getChildAt(1).getChildAt(0).getChildAt(0).getName();
                         te = new TableElement(id, type, level);
                         te.setStringValue(next);
                         table.add(te);
@@ -556,7 +625,7 @@ public class SemanticAnalyzer {
                 }
                 tnode = child.getChildAt(2);
                 while (tnode.getChildrenNum() != 1) {
-                    String tid = getNextVariable();
+                    String tid = tnode.getChildAt(1).getName();
                     if (tid == null) {
                         error("找不到对应变量值");
                         return;
@@ -616,25 +685,15 @@ public class SemanticAnalyzer {
         String next;
         switch (name) {
             case "Character":
-//                if (!type.equals("char")) {
-//                    error("此处需要char类型");
-//                }
                 // 判断字符是否为空
                 if (node.getChildAt(0).getChildAt(1).getChildAt(0).getName().equals("'")) {
-//                    te = new TableElement(id, type, level);
-//                    te.setStringValue("");
-//                    table.add(te);
-//                    break;
                     return new Value("char", "");
                 }
-                next = getNextString();
+                next = node.getChildAt(0).getChildAt(1).getChildAt(0).getName();
                 if (next == null) {
                     error("无法获取下一个string");
                     return null;
                 }
-//                te = new TableElement(id, type, level);
-//                te.setStringValue(next);
-//                table.add(te);
                 return new Value("char", next);
             case "Expression":
                 Value result = Calculate(node.getChildAt(0));
@@ -643,44 +702,6 @@ public class SemanticAnalyzer {
                     return null;
                 }
                 return result;
-//                switch (type) {
-//                    case "int":
-//                        switch (result.getType()) {
-//                            case "int":
-//                                te = new TableElement(id, type, level);
-//                                te.setIntValue(result.getValue());
-//                                table.add(te);
-//                                return;
-//                            case "real":
-//                                error("无法将real强制转换为int");
-//                                return;
-//                            case "char":
-//                                te = new TableElement(id, type, level);
-//                                te.setIntValue(String.valueOf(Integer.valueOf(result.getValue())));
-//                                table.add(te);
-//                                return;
-//                        }
-//                        break;
-//                    case "real":
-//                        switch (result.getType()) {
-//                            case "int":
-//                            case "real":
-//                                te = new TableElement(id, type, level);
-//                                te.setRealValue(result.getValue());
-//                                table.add(te);
-//                                return;
-//                            case "char":
-//                                te = new TableElement(id, type, level);
-//                                te.setRealValue(String.valueOf(Integer.valueOf(result.getValue())));
-//                                table.add(te);
-//                                return;
-//                        }
-//                        break;
-//                    case "char":
-//                        te = new TableElement(id, type, level);
-//                        te.setStringValue(result.getValue());
-//                        table.add(te);
-//                        return new ;
         }
         return null;
     }
@@ -899,86 +920,89 @@ public class SemanticAnalyzer {
     private Value Value(TreeNode node) {
         TreeNode child = node.getChildAt(0);
         String name = child.getName();
-        switch (name) {
-            case "number":
-                String next = getNextData();
-                if (CheckInt(next))
-                    return new Value("int", next);
-                return new Value("real", next);
-            case "true":
-                return new Value("int", String.valueOf(1));
-            case "false":
-                return new Value("int", String.valueOf(0));
-            case "identifier":
-                String n = node.getChildAt(1).getChildAt(0).getName();
-                switch (n) {
-                    case "ε":
-                        String id = getNextVariable();
-                        if (table.getElementAllLever(id, level) == null) {
-                            String error = "变量" + id + "在使用前未声明";
+        if (CheckInt(name)) {
+            return new Value("int", name);
+        } else if (CheckDigital(name)) {
+            return new Value("real", name);
+        } else if (name.equals("true")) {
+            return new Value("int", String.valueOf(1));
+        } else if (name.equals("false")) {
+            return new Value("int", String.valueOf(0));
+        } else if (name.equals("Scan")) {
+             return Scan(child);
+        } else {
+            String n = node.getChildAt(1).getChildAt(0).getName();
+            switch (n) {
+                case "ε":
+                    String id = node.getChildAt(0).getName();
+                    if (table.getElementAllLever(id, level) == null) {
+                        String error = "变量" + id + "在使用前未声明";
+                        error(error);
+                        return null;
+                    } else {
+                        TableElement te = table.getElementAllLever(id, level);
+                        String t = te.getType();
+                        String va = te.getValue();
+                        if (va.equals("")) {
+                            String error = "变量" + name + "并非整数，此处所需整数。";
                             error(error);
                             return null;
                         } else {
-                            TableElement te = table.getElementAllLever(id, level);
-                            String t = te.getType();
-                            String va = te.getValue();
-                            if (va.equals("")) {
-                                String error = "变量" + name + "并非整数，此处所需整数。";
-                                error(error);
-                                return null;
-                            } else {
-                                switch (t) {
-                                    case "int":
-                                        return new Value("int", va);
-                                    case "real":
-                                        return new Value("real", va);
-                                }
+                            switch (t) {
+                                case "int":
+                                    return new Value("int", va);
+                                case "real":
+                                    return new Value("real", va);
                             }
                         }
-                    case "[":
-                        // Need Array Dispose
-                        Value indexName = Calculate(child.getChildAt(1).getChildAt(1));
-                        String aid = getNextVariable();
-                        TableElement e = table.getElementAllLever(aid, level);
-                        if (e == null) {
-                            String error = "变量" + aid + "在使用前未声明";
-                            error(error);
+                    }
+                case "[":
+                    // Need Array Dispose
+                    Value indexName = Calculate(node.getChildAt(1).getChildAt(1));
+                    String aid = node.getChildAt(0).getName();
+                    TableElement e = table.getElementAllLever(aid, level);
+                    if (e == null) {
+                        String error = "变量" + aid + "在使用前未声明";
+                        error(error);
+                        return null;
+                    } else {
+                        if (indexName == null) {
+                            error("找不到对应的数组索引");
                             return null;
-                        } else {
-                            if (indexName == null) {
-                                error("找不到对应的数组索引");
-                                return null;
-                            }
-                            if (!indexName.getType().equals("int")) {
-                                error("数组索引不可为real类型");
-                            }
-                            int index = Integer.parseInt(indexName.getValue());
-                            if (index < 0 || index >= e.getArrayNum()) {
-                                error("数组越界");
-                            }
-                            Value target = e.getArrayElementAt(index);
-                            if (CheckInt(target.getValue())) {
-                                return new Value("real", target.getValue());
-                            }
-                            return new Value("real", target.getValue());
                         }
-                }
-                break;
-            case "Scan":
-                // Need Function
-                return Scan(child);
+                        if (!indexName.getType().equals("int")) {
+                            error("数组索引不可为real类型");
+                        }
+                        int index = Integer.parseInt(indexName.getValue());
+                        if (index < 0 || index >= e.getArrayNum()) {
+                            error("数组越界");
+                        }
+                        Value target = e.getArrayElementAt(index);
+                        if (CheckInt(target.getValue())) {
+                            return new Value("int", target.getValue());
+                        }
+                        return new Value("real", target.getValue());
+                    }
+            }
         }
         return null;
     }
 
     private void Print(TreeNode node) {
-        Value target = Calculate(node.getChildAt(2));
-        if (target == null) {
-            error("运算式有误！");
-            return;
+        TreeNode child = node.getChildAt(2);
+        String res;
+        if (child.getChildAt(0).getName().equals("Expression")) {
+            Value target = Calculate(node.getChildAt(2).getChildAt(0));
+            if (target == null) {
+                error("运算式有误！");
+                return;
+            }
+            res = target.getValue();
+        } else {
+            res = getString(child.getChildAt(0));
         }
-        String res = target.getValue();
         System.out.println(res);
+
     }
 
     private Value Scan(TreeNode node) {
@@ -988,7 +1012,7 @@ public class SemanticAnalyzer {
             error("没有任何输出");
             return null;
         }
-        String id = getNextVariable();
+        String id = child.getChildAt(0).getName();
         TableElement te = table.getElementAllLever(id, level);
         if (te == null) {
             String error = "变量" + id + "在使用前未声明";
@@ -1063,13 +1087,164 @@ public class SemanticAnalyzer {
                     error("数组越界");
                     return null;
                 }
+                String tarType = te.getArrayElementAt(0).getType();
+                te.setArrayAt(index, new Value(tarType, input));
                 Value target = te.getArrayElementAt(index);
-                return new Value("real", target.getValue());
+
+                return new Value(tarType, target.getValue());
         }
         return null;
     }
 
     private void C(TreeNode node) {
+        Value condition = Calculate(node.getChildAt(2));
+        if (condition == null) {
+            error("对应条件错误");
+            return;
+        }
+        TreeNode judge = node.getChildAt(4);
+        if (Double.parseDouble(condition.getValue()) != 0) {
+            level++;
+            S(judge.getChildAt(0).getChildAt(0).getChildAt(1));
+            level--;
+            table.update(level);
+        } else {
+            TreeNode Else = judge.getChildAt(0).getChildAt(1);
+            TreeNode judge2;
+            while (!Else.getChildAt(0).getName().equals("ε")) {
+                judge2 = Else.getChildAt(1);
+                if (judge2.getChildrenNum() == 1) {
+                    level++;
+                    S(judge2.getChildAt(0).getChildAt(1));
+                    level--;
+                    table.update(level);
+                    return;
+                }
+                condition = Calculate(judge2.getChildAt(2));
+                if (condition == null) {
+                    error("对应条件错误");
+                    return;
+                }
+                if (Double.parseDouble(condition.getValue()) != 0) {
+                    level++;
+                    S(judge2.getChildAt(4).getChildAt(0).getChildAt(1));
+                    level--;
+                    table.update(level);
+                    return;
+                } else {
+                    Else = judge2.getChildAt(4).getChildAt(1);
+                    if (Else.getChildAt(1).getChildrenNum() == 1) {
+                        level++;
+                        S(Else.getChildAt(1).getChildAt(0).getChildAt(1));
+                        level--;
+                        table.update(level);
+                        return;
+                    }
+                }
+            }
+        }
+    }
 
+    private boolean isBreak = false;
+    private boolean isContinue = false;
+
+    private void L(TreeNode node) {
+        TreeNode child = node.getChildAt(0);
+        switch (child.getName()) {
+            case "While":
+                While(child);
+                break;
+            case "For":
+                For(child);
+                break;
+        }
+    }
+
+    private void While(TreeNode node) {
+        whileNum++;
+        level++;
+        TreeNode condition = node.getChildAt(2);
+        if (condition == null) {
+            error("判断条件有误");
+            whileNum--;
+            level--;
+            table.update(level);
+            return;
+        }
+        Value con;
+        while(true) {
+            con = Calculate(condition);
+            if (con == null) {
+                error("判断条件有误！");
+                whileNum--;
+                level--;
+                table.update(level);
+                return;
+            }
+            if (Double.parseDouble(con.getValue()) == 0) {
+                whileNum--;
+                level--;
+                table.update(level);
+                return;
+            }
+            S(node.getChildAt(4).getChildAt(0).getChildAt(1));
+            if (isContinue) {
+                isContinue = false;
+                continue;
+            }
+            if (isBreak) {
+                isBreak = false;
+                whileNum--;
+                level--;
+                table.update(level);
+                return;
+            }
+        }
+    }
+
+    private void For(TreeNode node) {
+        forNum++;
+        level++;
+        TreeNode first = node.getChildAt(2);
+        switch (first.getChildAt(0).getName()) {
+            case "Assign":
+                Assign(first.getChildAt(0));
+                break;
+            case "State":
+                State(first.getChildAt(0));
+                break;
+        }
+        TreeNode second = node.getChildAt(3);
+        TreeNode third = node.getChildAt(5);
+        Value condition;
+        while (true) {
+            condition = Calculate(second);
+            if (condition == null) {
+                error("判断条件有误！");
+                whileNum--;
+                level--;
+                table.update(level);
+                return;
+            }
+            if (Double.parseDouble(condition.getValue()) == 0) {
+                whileNum--;
+                level--;
+                table.update(level);
+                return;
+            }
+            S(node.getChildAt(7).getChildAt(0).getChildAt(1));
+            if (isContinue) {
+                isContinue = false;
+                continue;
+            }
+            if (isBreak) {
+                isBreak = false;
+                whileNum--;
+                level--;
+                table.update(level);
+                return;
+            }
+            Assign(third);
+        }
     }
 }

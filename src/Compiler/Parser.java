@@ -24,6 +24,83 @@ public class Parser {
     private JSONObject analysisTable = new JSONObject();
     private TreeNode root;
 
+    private final File dataLocation = new File("./output/data.table");
+    private final File stringLocation = new File("./output/string.table");
+    private final File variableLocation = new File("./output/variable.table");
+
+    private List<String> dataTable = new ArrayList<>();
+    private int dataIndex = 0;
+    private List<String> stringTable = new ArrayList<>();
+    private int stringIndex = 0;
+    private List<String> variableTable = new ArrayList<>();
+    private int variableIndex = 0;
+
+    private void LoadDataTable() {
+        try {
+            dataTable.clear();
+            BufferedReader br = new BufferedReader(new FileReader(dataLocation));
+            String tmp;
+            while ((tmp = br.readLine()) != null && (!tmp.equals(""))) {
+                dataTable.add(tmp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("文件读取失败");
+        }
+    }
+
+    private void LoadStringTable() {
+        try {
+            stringTable.clear();
+            BufferedReader br = new BufferedReader(new FileReader(stringLocation));
+            String tmp;
+            while ((tmp = br.readLine()) != null && (!tmp.equals(""))) {
+                stringTable.add(tmp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("文件读取失败");
+        }
+    }
+
+    private void LoadVariableTable() {
+        try {
+            variableTable.clear();
+            BufferedReader br = new BufferedReader(new FileReader(variableLocation));
+            String tmp;
+            while ((tmp = br.readLine()) != null && (!tmp.equals(""))) {
+                variableTable.add(tmp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("文件读取失败");
+        }
+    }
+
+    private String getNextData() throws IOException {
+        if (dataIndex >= dataTable.size()) {
+            out.write("Cannot get number".getBytes());
+            return null;
+        }
+        return dataTable.get(dataIndex++);
+    }
+
+    private String getNextString() throws IOException {
+        if (stringIndex >= stringTable.size()) {
+            out.write("Cannot get number".getBytes());
+            return null;
+        }
+        return stringTable.get(stringIndex++);
+    }
+
+    private String getNextVariable() throws IOException {
+        if (variableIndex >= variableTable.size()) {
+            out.write("Cannot get number".getBytes());
+            return null;
+        }
+        return variableTable.get(variableIndex++);
+    }
+
     public void setLocationFile(File locationFile) {
         this.locationFile = locationFile;
     }
@@ -211,7 +288,6 @@ public class Parser {
                                     first.add(f);
                                 }
                             }
-//                            first.addAll(eachFirst);
                         } else break;
                     }
                     if (i == export.length) first.addAll((List<String>) followSet.get(key));  // 如果全可为空，则加入follow
@@ -221,6 +297,9 @@ public class Parser {
                 } else {                                    // 如果为终结符，则加入终结符
                     subSelect.put(s, Collections.singletonList(export[0]));
                 }
+            }
+            if (key.equals("State1")) {
+                subSelect.get("State2 ;").add(";");
             }
             selectSet.put(key, subSelect);
         }
@@ -297,6 +376,9 @@ public class Parser {
     @SuppressWarnings("unchecked")
     private void Analyse() throws IOException {
         getAnalysisTable();
+        LoadDataTable();
+        LoadStringTable();
+        LoadVariableTable();
         Stack<String> sen = new Stack<>();
         sen.push("$");
         for (int i = sentence.size() - 1; i >= 0; i--) {
@@ -345,7 +427,21 @@ public class Parser {
                         n.addChildren(t);
                         tree.push(t);
                     } else {
-                        n.addChildren(new TreeNode(right[i]));
+                        String x;
+                        switch (right[i]) {
+                            case "identifier":
+                                x = getNextVariable();
+                                break;
+                            case "number":
+                                x = getNextData();
+                                break;
+                            case "string":
+                                x = getNextString();
+                                break;
+                            default:
+                                x = right[i];
+                        }
+                        n.addChildren(new TreeNode(x));
                     }
                 }
                 out.write(production.getBytes());
@@ -406,6 +502,6 @@ public class Parser {
         p.getAnalysisTable();
         FileOutputStream fos = new FileOutputStream(new File("./output/test"));
         fos.write(p.analysisTable.toString().getBytes());
-        System.out.println(p.firstSet.get("State2"));
+        System.out.println(p.analysisTable.get("State1"));
     }
 }

@@ -71,9 +71,10 @@ public class GrammarMap {
         map.put("ScanArray", Arrays.asList("ε", "[ Expression ]"));
 
         // L-循环 SS-单句 C-条件 3
-        map.put("SS", Arrays.asList("Jump", "Print", "State", "Assign", "ScanSentence"));
+        map.put("SS", Arrays.asList("Jump", "Print", "State", "Assign ;", "ScanSentence"));
         map.put("ScanSentence", Collections.singletonList("Scan ;"));
-        map.put("Print", Collections.singletonList("print ( Expression ) ;"));
+        map.put("Print", Collections.singletonList("print ( PrintItem"));
+        map.put("PrintItem", Arrays.asList("Expression ) ;", "String ) ;"));
         map.put("Jump", Arrays.asList("break ;", "continue ;"));
 
         // State Assign 14
@@ -84,7 +85,7 @@ public class GrammarMap {
         map.put("Array", Arrays.asList("Expression ] Array1", "] Array1"));
 //        map.put("Array1", Arrays.asList("] Array2"));
         map.put("Array1", Arrays.asList("= Array2", "ε"));
-        map.put("Array2", Arrays.asList("{ Value4 Element }", "String"));
+        map.put("Array2", Arrays.asList("{ Value4 Element }", "String", "Character", "Expression"));
         map.put("Element", Arrays.asList(", Value4 Element", "ε"));
         map.put("Value4", Arrays.asList("Character", "Expression"));
         map.put("Value3", Arrays.asList("Character", "Expression", "String"));
@@ -92,25 +93,27 @@ public class GrammarMap {
         map.put("Char1", Arrays.asList("string '", "'"));
         map.put("String", Collections.singletonList("\" String1"));
         map.put("String1", Arrays.asList("string \"", "\""));
-        map.put("Assign", Collections.singletonList("identifier Assign1 State2 ;"));
-        map.put("Assign1", Arrays.asList("[ Array", "= Value3"));
+        map.put("Assign", Collections.singletonList("identifier Assign1 State2"));
+        map.put("Assign1", Arrays.asList("[ Array", "= Value4"));
 
         // 条件 6 P
         map.put("C", Collections.singletonList("if ( Expression ) Judge"));
         map.put("Judge", Arrays.asList("if ( Expression ) Judge", "Judge1"));
         map.put("Judge1", Collections.singletonList("Content Else"));
-        map.put("Content", Arrays.asList("{ S }", "L", "SS"));
+        // , "L", "SS"
+        map.put("Content", Collections.singletonList("{ S }"));
         map.put("Else", Arrays.asList("else Judge2", "ε"));
         map.put("Judge2", Arrays.asList("if ( Expression ) Judge1", "Content"));
 
         // 循环 7
-        map.put("L", Arrays.asList("while ( Expression ) While", "for ( For1 For2 ; For2 ) For"));
-        map.put("While", Arrays.asList("while ( Expression ) While", "{ S }", "SS", "Expression ;", "C"));
-//        map.put("DoWhile", Arrays.asList("do DoWhile", "{ S } while ( Expression ) ;"));
+        map.put("L", Arrays.asList("While", "For"));
+        map.put("While", Arrays.asList("while ( Expression ) While", "WhileContent"));
+        map.put("WhileContent", Collections.singletonList("{ S }"));
         map.put("For1", Arrays.asList("Assign", "State", "ε"));
-        map.put("For2", Arrays.asList("Expression", "ε"));
-//        map.put("For3", Arrays.asList("Assign", "ε"));
-        map.put("For", Arrays.asList("for ( For1 For2 ; For2 ) For", "{ S }", "SS", "C"));
+//        map.put("For2", Arrays.asList(, "ε"));
+//        map.put("For3", Arrays.asList("Assign", "ε"));, , "SS", "C"
+        map.put("For", Arrays.asList("for ( For1 Expression ; Assign ) For", "ForContent"));
+        map.put("ForContent", Collections.singletonList("{ S }"));
 
         grammar = new JSONObject(map);
     }

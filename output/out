@@ -1,17 +1,48 @@
-<Keyword, char, 1:1>
-<Identifier, a, 1:6>
-<Delimiter, [, 1:7>
-<Delimiter, ], 1:8>
-<Monocular Operation, =, 1:9>
-<Delimiter, {, 1:10>
-<Delimiter, ', 1:11>
-<String, 1, 1:12>
-<Delimiter, ', 1:13>
-<Delimiter, ,, 1:14>
-<Delimiter, ', 1:16>
-<String, b, 1:17>
-<Delimiter, ', 1:18>
-<Delimiter, }, 1:19>
-<Delimiter, ,, 1:20>
-<Identifier, b, 1:21>
-<Delimiter, ;, 1:22>
+<Keyword, int, 1:1>
+<Identifier, x, 1:5>
+<Monocular Operation, =, 1:7>
+<Number, 5, 1:9>
+<Delimiter, ;, 1:10>
+<Keyword, int, 2:1>
+<Identifier, y, 2:5>
+<Monocular Operation, =, 2:7>
+<Number, 6, 2:9>
+<Delimiter, ;, 2:10>
+<Keyword, while, 3:1>
+<Delimiter, (, 3:6>
+<Identifier, x, 3:7>
+<Binocular Operation, >=, 3:9>
+<Number, 0, 3:12>
+<Delimiter, ), 3:13>
+<Delimiter, {, 3:15>
+<Keyword, while, 4:5>
+<Delimiter, (, 4:10>
+<Identifier, y, 4:11>
+<Binocular Operation, >=, 4:13>
+<Number, 0, 4:16>
+<Delimiter, ), 4:17>
+<Delimiter, {, 4:19>
+<Keyword, print, 5:9>
+<Delimiter, (, 5:15>
+<Identifier, x, 5:16>
+<Delimiter, ), 5:17>
+<Delimiter, ;, 5:18>
+<Keyword, print, 6:9>
+<Delimiter, (, 6:15>
+<Identifier, y, 6:16>
+<Delimiter, ), 6:17>
+<Delimiter, ;, 6:18>
+<Identifier, y, 7:9>
+<Monocular Operation, =, 7:11>
+<Identifier, y, 7:13>
+<Monocular Operation, -, 7:14>
+<Number, 1, 7:15>
+<Delimiter, ;, 7:16>
+<Delimiter, }, 8:5>
+<Identifier, x, 9:5>
+<Monocular Operation, =, 9:7>
+<Identifier, x, 9:9>
+<Monocular Operation, -, 9:11>
+<Number, 1, 9:12>
+<Delimiter, ;, 9:13>
+<Delimiter, }, 10:1>

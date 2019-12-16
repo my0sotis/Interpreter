@@ -1,1 +1,10 @@
-char a[]={'1', 'b'},b;
+int x = 5;
+int y = 6;
+while(x >= 0) {
+    while(y >= 0) {
+        print (x);
+        print (y);
+        y = y-1;
+    }
+    x = x -1;
+}

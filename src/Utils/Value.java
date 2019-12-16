@@ -59,7 +59,7 @@ public class Value {
             case "char":
                 return charValue;
         }
-        return null;
+        return "";
     }
 
     public boolean CheckInteger(String t) {

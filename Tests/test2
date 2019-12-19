@@ -5,8 +5,8 @@ char h = '-';
 char z = '+';
 
 char err = "\nerr-------err------err\n";
-char hint = " please enter for rows cols: ";
-char clear = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+char hint[] = " please enter for rows cols: ";
+char clear[] = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 int win = 0;
 char white = 'o'; // -1
 int w = -1;

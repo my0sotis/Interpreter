@@ -1,46 +1,97 @@
-// stack pseudo-implenetation
-// basic test of no.3
+// ox game
+// test with char for no.2
 
-int n;
-scan(n);
-real err = 1010101010101010.101010101010;
-real clc = 1000000000000000.000000000001;
-int a[n];
-int head = 0,tail = 0;
+char h = '-';
+char z = '+';
 
-int op;
-real operand;
-scan(operand); // abs(0): exit >1:push <-1:pop -1~1:print len;
-scan(op);
-
-while(operand <> 0){
-  if(operand > 1){
-    // push
-    int isFull = (tail + 1) - (tail + 1) / n * n  == head;
-    if(isFull){
-      print(err);
-      break;
+int win = 0;
+char white = 'o'; // -1
+int w = -1;
+char black = 'x'; // 1
+int b = 1;
+char curc = white;
+int cur = w;
+int n = 3;
+int chess[n*n];
+int total = 0;
+while(win == 0){
+  total = total + 1;
+  print("+--+--+--+\n");
+  for(int i = 0;i < n;i = i + 1){
+    print(z);
+    for(int j = 0; j < n;j = j + 1){
+      if(chess[i*n+j] == w) {
+        print(white);}
+      else if(chess[i*n+j] == b){
+        print(black);}
+      else{ print(' ');}
+      print(' ');
+      print(z);
     }
-    a[tail] = op;
-    tail = (tail + 1) - ((tail + 1) / n) * n;
-  }else if(operand < -1){
-    // pop
-    int isEmpty = tail == head;
-    if(isEmpty){
-      print(0-err);
-      break;
-    }
-    print(a[head]);
-    head = (head + 1) - ((head + 1) / n ) * n;
-  } else {
-    // print length
-    int len = tail - head - (tail - head) / n * n;
-    print(len);
+      print("+--+--+--+\n");
   }
-  print(clc);
-  scan(operand);
-  scan(op);
+
+
+
+  print(curc);
+  i = 0;
+  j = 0;
+  print("please enter for rows: ");
+  scan(i);
+  print("please enter for cols: ");
+  scan(j);
+
+  if(i < 0 || i > n || j < 0 || j > n){
+    print("\nerr-------err------err\n");
+    print("out of border\n");
+    break;
+  }
+  if(chess[i*n+j] <> 0){
+    print("\nerr-------err------err\n");
+    print("illegal step\n");
+    break;
+  }
+
+  chess[i*n+j] = cur;
+
+  // search for win
+  int count1 = 0;
+  int count2 = 0;
+  int count3 = 0;
+  int count4 = 0;
+
+  for(int k = 0; k < n;k  = k + 1){
+    if(chess[i*n+k] == cur){
+      count1 = count1 + 1;}
+    if(chess[k*n+j] == cur){
+      count2 = count2 + 1;}
+    if(chess[k*n+k] == cur){
+      count3 = count3 + 1;}
+    if(chess[k*n+n - k - 1] == cur){
+      count4 = count4 + 1;}
+  }
+
+  if(count4 == n || count1 == n || count2 == n || count3 == n ){
+    win = cur;
+  }
+
+  // invert
+  curc = black + white - curc;
+  cur = 0-cur;
+
+  if (total == n * n){
+    // win-win
+    break;
+  }else {
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+  }
   continue;
-  scan(operand);
-  scan(op);
+ }
+
+
+if(win == 0){
+  print("no one wins\n");
+ }else {
+  print(curc);
+  print(" has won!Congratulation!\n");
  }

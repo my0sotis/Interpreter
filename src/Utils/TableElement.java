@@ -94,6 +94,9 @@ public class TableElement {
     }
 
     public Value getArrayElementAt(int index) {
+        if (index >= arrayNum) {
+            return null;
+        }
         return array.get(index);
     }
 

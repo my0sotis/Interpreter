@@ -12,13 +12,14 @@ public class Main {
         try {
             FileOutputStream fos = new FileOutputStream("./output/out");
             la.setOut(fos);
-            la.setFile(new File("./Tests/test"));
+            la.setFile(new File("./Tests/test4"));
             la.Analyze();
             System.out.println("词法分析完毕！");
             FileOutputStream fo = new FileOutputStream("./output/pout");
             p.setOut(fo);
             p.start();
             SemanticAnalyzer sa = new SemanticAnalyzer(p.getRoot());
+//            sa.setFileInput(false);
             sa.Analyse();
         } catch (IOException e) {
             e.printStackTrace();

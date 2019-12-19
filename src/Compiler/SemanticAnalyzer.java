@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,8 +24,11 @@ public class SemanticAnalyzer {
     private int errorNum = 0;
     private List<String> errorInfo = new ArrayList<>();
 
-//    private File inputLocation = new File("./Tests/bag-test/beibao11.in");
-    private File inputLocation = new File("./Tests/stack/stack1.in");
+    private boolean isFileInput = true;
+
+//    private File inputLocation = new File("./Tests/bag-test/beibao8.in");
+//    private File inputLocation = new File("./Tests/stack/stack3.in");
+    private File inputLocation = new File("./Tests/manacher/m3.in");
 
     private int level = 0;
     private int inputIndex = 0;
@@ -36,6 +40,10 @@ public class SemanticAnalyzer {
     public SemanticAnalyzer(TreeNode node) {
         root = node;
         LoadInputTable();
+    }
+
+    public void setFileInput(boolean fileInput) {
+        isFileInput = fileInput;
     }
 
     public void setRoot(TreeNode root) {
@@ -206,6 +214,10 @@ public class SemanticAnalyzer {
                 // [ Arrays
                 if (!te.getType().equals("array")) {
                     error("获取的值并非Array");
+                    return;
+                }
+                if (te.getArrayElementAt(0) == null) {
+                    error("数组越界！");
                     return;
                 }
                 String type = te.getArrayElementAt(0).getType();
@@ -402,6 +414,7 @@ public class SemanticAnalyzer {
                 table.add(element);
                 TreeNode tnode = child.getChildAt(0);
                 while (tnode.getChildrenNum() != 1) {
+                    TreeNode tmp = child.getChildAt(0).getChildAt(0);
                     String tid = child.getChildAt(0).getChildAt(0).getChildAt(1).getName();
                     if (tid == null) {
                         error("找不到对应变量值");
@@ -963,6 +976,8 @@ public class SemanticAnalyzer {
                                     return new Value("int", va);
                                 case "real":
                                     return new Value("real", va);
+                                case "char":
+                                    return new Value("char", va);
                             }
                         }
                     }
@@ -988,6 +1003,10 @@ public class SemanticAnalyzer {
                             error("数组越界");
                         }
                         Value target = e.getArrayElementAt(index);
+                        if (target == null) {
+                            error("数组越界");
+                            return null;
+                        }
                         if (CheckInt(target.getValue())) {
                             return new Value("int", target.getValue());
                         }
@@ -997,6 +1016,8 @@ public class SemanticAnalyzer {
         }
         return null;
     }
+
+    private List<Character> EscapeSymbol = Arrays.asList('\\','\"','\'');
 
     private void Print(TreeNode node) {
         TreeNode child = node.getChildAt(2);
@@ -1008,18 +1029,42 @@ public class SemanticAnalyzer {
                 return;
             }
             res = target.getValue();
+            System.out.print(res);
         } else {
             res = getString(child.getChildAt(0));
+            for (int i = 0; i < res.length(); i++) {
+                if (res.charAt(i) == '\\') {
+                    if (res.charAt(i + 1) == 'n') {
+                        System.out.println();
+                        i = i + 1;
+                    } else {
+                        error("非法的转义字符");
+                        return;
+                    }
+                }
+                System.out.print(res.charAt(i));
+            }
         }
-        System.out.println(res);
 
     }
 
-    private Value Scan(TreeNode node) {
+    private synchronized Value Scan(TreeNode node) {
         TreeNode child = node.getChildAt(2);
-        String input = getNextInput();
+        String input;
+        Scanner sc = new Scanner(System.in);
+        if (isFileInput) {
+            input = getNextInput();
+        } else {
+            if (sc.hasNext()) {
+                input = sc.next();
+            } else {
+                input = null;
+            }
+//            Thread.sleep(.);
+            sc.close();
+        }
         if (input == null) {
-            error("没有任何输出");
+            error("没有任何输入");
             return null;
         }
         String id = child.getChildAt(0).getName();
@@ -1045,6 +1090,10 @@ public class SemanticAnalyzer {
                         case "array":
                             te.setArray(getValueList(getListFromString(input)));
                             // Need Operation
+                            if (te.getArrayElementAt(0) == null) {
+                                error("数组越界！");
+                                return null;
+                            }
                             return new Value(te.getArrayElementAt(0).getType(),
                                     te.getArrayElementAt(0).getValue());
                     }
@@ -1061,6 +1110,10 @@ public class SemanticAnalyzer {
                             return new Value("char", input);
                         case "array":
                             te.setArray(getValueList(getListFromString(input)));
+                            if (te.getArrayElementAt(0) == null) {
+                                error("数组越界！");
+                                return null;
+                            }
                             return new Value(te.getArrayElementAt(0).getType(),
                                     te.getArrayElementAt(0).getValue());
                     }
@@ -1077,6 +1130,10 @@ public class SemanticAnalyzer {
                             return new Value("char", input);
                         case "array":
                             te.setArray(getValueList(getListFromString(input)));
+                            if (te.getArrayElementAt(0) == null) {
+                                error("数组越界！");
+                                return null;
+                            }
                             return new Value(te.getArrayElementAt(0).getType(),
                                     te.getArrayElementAt(0).getValue());
                     }
@@ -1095,6 +1152,10 @@ public class SemanticAnalyzer {
                 int index = Integer.parseInt(indexName.getValue());
                 if (index < 0 || index >= te.getArrayNum()) {
                     error("数组越界");
+                    return null;
+                }
+                if (te.getArrayElementAt(0) == null) {
+                    error("数组越界！");
                     return null;
                 }
                 String tarType = te.getArrayElementAt(0).getType();

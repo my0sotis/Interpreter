@@ -57,7 +57,7 @@ public class Value {
             case "real":
                 return String.valueOf(doubleValue);
             case "char":
-                return charValue;
+                return String.valueOf(charValue);
         }
         return "";
     }

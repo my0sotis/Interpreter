@@ -2,6 +2,7 @@ package Compiler;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -300,16 +301,8 @@ public class LexicalAnalyzer {
         int may_error_column = -1;                              // 可能发生错误的列号
         String may_error_string = null;                         // 可能发生错误的字符
         String quota_mark = null;                               // 引号，表明后面为字符串
-        List<Character> EscapeSymbol = new ArrayList<>();
-        EscapeSymbol.add('\\');
-        EscapeSymbol.add('\"');
-        EscapeSymbol.add('\'');
-        List<Character> EscapeChar = new ArrayList<>();
-        EscapeChar.add('n');
-        EscapeChar.add('r');
-        EscapeChar.add('b');
-        EscapeChar.add('t');
-        EscapeChar.add('a');
+        List<Character> EscapeSymbol = Arrays.asList('\\', '\"', '\'');
+        List<Character> EscapeChar = Arrays.asList('n', 'r', 'b', 't', 'a');
         for (int i = 0; i < list.size(); i++) {                 // 遍历每一行，i为行号
             String string_test = list.get(i);                   // 本次要分析的字符串
             for (int j = 0; j < string_test.length(); j++) {    // 遍历该字符串

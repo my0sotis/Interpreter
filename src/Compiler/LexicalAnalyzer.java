@@ -529,9 +529,9 @@ public class LexicalAnalyzer {
                     StringBuilder sb = new StringBuilder();
                     sb.append(tmp);
                     if (string_test.charAt(j + 1) == ' ') k++;
-                    char x = string_test.charAt(k);
                     while (k < string_test.length() && (Character.isDigit(string_test.charAt(k))
-                            || string_test.charAt(k) == '.')) {
+                            || string_test.charAt(k) == '.' || string_test.charAt(k) == 'x'
+                            || (string_test.charAt(k) <= 'F' && string_test.charAt(k) >= 'A'))) {
                         sb.append(string_test.charAt(k));
                         k++;
                     }
@@ -614,7 +614,7 @@ public class LexicalAnalyzer {
                     }
                     char next = string_test.charAt(j + 1);
                     // 有可能为位运算，"<<"或者">>"
-                    if (next == tmp) {
+                    if (next == tmp || (tmp == '<' && next == '>')) {
                         String sub = string_test.substring(j, j + 2);
                         int x = get_num(sub, 1);
                         if (may_error_row != -1) {
@@ -622,13 +622,6 @@ public class LexicalAnalyzer {
                             may_error_row = may_error_column = -1;
                             may_error_string = null;
                         }
-                        out.write(get_String(x, sub, i, j));
-                        last_token = x;
-                        j = j + 1;
-                        continue;
-                    } else if (tmp == '<' && next == '>') {             // 可能为<>
-                        String sub = string_test.substring(j, j + 2);
-                        int x = get_num(sub, 1);
                         out.write(get_String(x, sub, i, j));
                         last_token = x;
                         j = j + 1;

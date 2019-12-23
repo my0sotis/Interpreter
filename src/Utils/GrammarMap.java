@@ -2,9 +2,10 @@ package Utils;
 
 import org.json.simple.JSONObject;
 
-import java.awt.image.AreaAveragingScaleFilter;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class GrammarMap {
     private JSONObject grammar;
@@ -90,7 +91,7 @@ public class GrammarMap {
         map.put("Value4", Arrays.asList("Character", "Expression", "String"));
         map.put("Value3", Arrays.asList("Character", "Expression", "String"));
         map.put("Character", Collections.singletonList("' Char1"));
-        map.put("Char1", Arrays.asList("string \'", "\'"));
+        map.put("Char1", Arrays.asList("string '", "'"));
         map.put("String", Collections.singletonList("\" String1"));
         map.put("String1", Arrays.asList("string \"", "\""));
         map.put("Assign", Collections.singletonList("identifier Assign1 State2"));

@@ -15,10 +15,6 @@ public class TreeNode {
         Children.add(node);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
@@ -34,6 +30,4 @@ public class TreeNode {
     public int getChildrenNum() {
         return Children.size();
     }
-
-
 }

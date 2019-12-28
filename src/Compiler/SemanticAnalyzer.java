@@ -132,6 +132,10 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * Jump Operation
+     * @param node Current TreeNode
+     */
     private void Jump(TreeNode node) {
         if (isBreak || isContinue) return;
         if (whileNum > 0 || forNum > 0) {
@@ -146,6 +150,10 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * Assign Operation
+     * @param node Current TreeNode
+     */
     private void Assign(TreeNode node) {
         if (isContinue || isBreak) return;
         String leftValue = node.getChildAt(0).getName();
@@ -717,17 +725,33 @@ public class SemanticAnalyzer {
         return null;
     }
 
+    /**
+     * Check whether the number is a integer
+     * @param str target string
+     * @return true when it is a number
+     */
     private boolean CheckInt(String str) {
         String REGEX_INT = "^[+|-]?((\\d+\\.?)|(0x(\\d|[A-F]|[a-f])+\\.?))$";
         return Pattern.matches(REGEX_INT, str);
     }
 
+    /**
+     * Check whether the number is a digital
+     * @param str target string
+     * @return true when it is a number
+     */
     private boolean CheckDigital(String str) {
          String REGEX_DIGITAL =
                 "^[+|-]?((\\d+(\\.\\d+)?)|(0x(\\d|[A-F]|[a-f])+(\\.(\\d|[A-F]|[a-f])+)?))$";
          return Pattern.matches(REGEX_DIGITAL, str);
     }
 
+    /**
+     * Logical And Operation
+     * @param x Operand 1
+     * @param y Operand 2
+     * @return new Value("int", 1) when both x and y not equal 0
+     */
     private Value and(Value x, Value y) {
         if (Double.parseDouble(x.getValue()) != 0 && Double.parseDouble(y.getValue()) != 0) {
             return new Value("int", String.valueOf(1));
@@ -735,6 +759,12 @@ public class SemanticAnalyzer {
         return new Value("int", String.valueOf(0));
     }
 
+    /**
+     * Logical Or Operation
+     * @param x Operand 1
+     * @param y Operand 2
+     * @return new Value("int", 0) when both x and y equal 0
+     */
     private Value or(Value x, Value y) {
         if (Double.parseDouble(x.getValue()) == 0 && Double.parseDouble(y.getValue()) == 0) {
             return new Value("int", String.valueOf(0));
@@ -742,6 +772,12 @@ public class SemanticAnalyzer {
         return new Value("int", String.valueOf(1));
     }
 
+    /**
+     * Equal Operation
+     * @param x Operand 1
+     * @param y Operand 2
+     * @return new Value("int", 1) when x == y after double parse
+     */
     private Value equal(Value x, Value y) {
         if (Double.parseDouble(x.getValue()) == Double.parseDouble(y.getValue())) {
             return new Value("int", String.valueOf(1));
@@ -749,6 +785,12 @@ public class SemanticAnalyzer {
         return new Value("int", String.valueOf(0));
     }
 
+    /**
+     * Neq Operation
+     * @param x Operand 1
+     * @param y Operand 2
+     * @return new Value("int", 0) when x == y after double parse
+     */
     private Value neq(Value x, Value y) {
         if (Double.parseDouble(x.getValue()) == Double.parseDouble(y.getValue())) {
             return new Value("int", String.valueOf(0));
@@ -756,6 +798,12 @@ public class SemanticAnalyzer {
         return new Value("int", String.valueOf(1));
     }
 
+    /**
+     * Greater than Operation
+     * @param x Operand 1
+     * @param y Operand 2
+     * @return new Value("int", 1) when x > y after double parse
+     */
     private Value g(Value x, Value y) {
         if (Double.parseDouble(x.getValue()) > Double.parseDouble(y.getValue())) {
             return new Value("int", String.valueOf(1));
@@ -763,6 +811,12 @@ public class SemanticAnalyzer {
         return new Value("int", String.valueOf(0));
     }
 
+    /**
+     * Greater than or Equal Operation
+     * @param x Operand 1
+     * @param y Operand 2
+     * @return new Value("int", 1) when x >= y after double parse
+     */
     private Value ge(Value x, Value y) {
         if (Double.parseDouble(x.getValue()) >= Double.parseDouble(y.getValue())) {
             return new Value("int", String.valueOf(1));
@@ -770,6 +824,12 @@ public class SemanticAnalyzer {
         return new Value("int", String.valueOf(0));
     }
 
+    /**
+     * Lower than Operation
+     * @param x Operand 1
+     * @param y Operand 2
+     * @return new Value("int", 1) when x < y after double parse
+     */
     private Value l(Value x, Value y) {
         if (Double.parseDouble(x.getValue()) < Double.parseDouble(y.getValue())) {
             return new Value("int", String.valueOf(1));
@@ -777,6 +837,12 @@ public class SemanticAnalyzer {
         return new Value("int", String.valueOf(0));
     }
 
+    /**
+     * Lower than or Equal Operation
+     * @param x Operand 1
+     * @param y Operand 2
+     * @return new Value("int", 1) when x <= y after double parse
+     */
     private Value le(Value x, Value y) {
         if (Double.parseDouble(x.getValue()) <= Double.parseDouble(y.getValue())) {
             return new Value("int", String.valueOf(1));
@@ -784,7 +850,11 @@ public class SemanticAnalyzer {
         return new Value("int", String.valueOf(0));
     }
 
-    // Unfinished
+    /**
+     * Calculate the Expression result
+     * @param node current node
+     * @return Expression result
+     */
     private Value Calculate(TreeNode node) {
         if (node.getName().equals("E11")) {
             if (node.getChildAt(0).getName().equals("(")) {
@@ -917,17 +987,22 @@ public class SemanticAnalyzer {
                         if (resType.equals("real")) {
                             return new Value("real",
                                     String.valueOf(Double.parseDouble(left.getValue())
-                                            - Double.parseDouble(right.getValue())));
+                                            % Double.parseDouble(right.getValue())));
                         } else {
                             return new Value("int",
                                     String.valueOf(Integer.parseInt(left.getValue())
-                                            / Integer.parseInt(right.getValue())));
+                                            % Integer.parseInt(right.getValue())));
                         }
                 }
         }
         return null;
     }
 
+    /**
+     * Specific Value
+     * @param node current TreeNode
+     * @return Specific Value Get from number, variable, true, false and scan
+     */
     private Value Value(TreeNode node) {
         TreeNode child = node.getChildAt(0);
         String name = child.getName();
@@ -954,8 +1029,8 @@ public class SemanticAnalyzer {
                         TableElement te = table.getElementAllLever(id, level);
                         String t = te.getType();
                         String va = te.getValue();
-                        if (va.equals("")) {
-                            String error = "变量" + name + "并非整数，此处所需整数。";
+                        if (va == null) {
+                            String error = "变量" + name + "并非数值，此处所需数值。";
                             error(error);
                             return null;
                         } else {
@@ -989,24 +1064,24 @@ public class SemanticAnalyzer {
                         int index = Integer.parseInt(indexName.getValue());
                         if (index < 0 || index >= e.getArrayNum()) {
                             error("数组越界");
+                            return null;
                         }
                         Value target = e.getArrayElementAt(index);
                         if (target == null) {
                             error("数组越界");
                             return null;
                         }
-                        if (CheckInt(target.getValue())) {
-                            return new Value("int", target.getValue());
-                        }
-                        return new Value("real", target.getValue());
+                        return target;
                     }
             }
         }
         return null;
     }
 
-    private List<Character> EscapeSymbol = Arrays.asList('\\','\"','\'');
-
+    /**
+     * Print Operation
+     * @param node current TreeNode
+     */
     private void Print(TreeNode node) {
         TreeNode child = node.getChildAt(2);
         String res;
@@ -1023,7 +1098,13 @@ public class SemanticAnalyzer {
             for (int i = 0; i < res.length(); i++) {
                 if (res.charAt(i) == '\\') {
                     if (res.charAt(i + 1) == 'n') {
-                        System.out.println();
+                        System.out.print('\n');
+                        i = i + 1;
+                    } else if (res.charAt(i + 1) == 't') {
+                        System.out.print('\t');
+                        i = i + 1;
+                    } else if (res.charAt(i + 1) == 'r') {
+                        System.out.print('\r');
                         i = i + 1;
                     } else {
                         error("非法的转义字符");
@@ -1036,6 +1117,11 @@ public class SemanticAnalyzer {
 
     }
 
+    /**
+     * Scan Operation
+     * @param node Current Node
+     * @return Value get from inputTable
+     */
     private synchronized Value Scan(TreeNode node) {
         TreeNode child = node.getChildAt(2);
         String input = getNextInput();
@@ -1143,6 +1229,10 @@ public class SemanticAnalyzer {
         return null;
     }
 
+    /**
+     * Condition function
+     * @param node current TreeNode
+     */
     private void C(TreeNode node) {
         Value condition = Calculate(node.getChildAt(2));
         if (condition == null) {

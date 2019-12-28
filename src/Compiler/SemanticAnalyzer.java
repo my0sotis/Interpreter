@@ -24,8 +24,6 @@ public class SemanticAnalyzer {
     private int errorNum = 0;
     private List<String> errorInfo = new ArrayList<>();
 
-    private boolean isFileInput = true;
-
 //    private File inputLocation = new File("./Tests/bag-test/beibao8.in");
 //    private File inputLocation = new File("./Tests/stack/stack3.in");
     private File inputLocation = new File("./Tests/manacher/m3.in");
@@ -40,10 +38,6 @@ public class SemanticAnalyzer {
     public SemanticAnalyzer(TreeNode node) {
         root = node;
         LoadInputTable();
-    }
-
-    public void setFileInput(boolean fileInput) {
-        isFileInput = fileInput;
     }
 
     public void setRoot(TreeNode root) {
@@ -81,10 +75,13 @@ public class SemanticAnalyzer {
 
     public void Analyse() {
         S(root);
-        System.out.println("There are " + errorNum + " errors in the program!");
-        for (var x :
-                errorInfo) {
-            System.out.println(x);
+        System.out.println();
+        if (errorNum != 0) {
+            System.out.println("There are " + errorNum + " errors in the program!");
+            for (var x :
+                    errorInfo) {
+                System.out.println(x);
+            }
         }
     }
 
@@ -288,20 +285,11 @@ public class SemanticAnalyzer {
                                 }
                         }
                     }
-
-
-//                    List<Value> values = new ArrayList<>();
-//                    for (int i = 0; i < Integer.parseInt(res.getValue()); i++) {
-//                        values.add(new Value(type));
-//                    }
-//                    te.setArray(values);
-
                 }
                 TreeNode array1 = array.getChildAt(array.getChildrenNum()-1);
                 if ("=".equals(array1.getChildAt(0).getName())) {
                     TreeNode array2 = array1.getChildAt(1);
                     if (array2.getChildAt(0).getName().equals("{")) {
-//                            int x = 1;
                         List<Value> values = new ArrayList<>();
                         values.add(Value4(array2.getChildAt(1)));
                         TreeNode temp = array2.getChildAt(2);
@@ -1050,19 +1038,7 @@ public class SemanticAnalyzer {
 
     private synchronized Value Scan(TreeNode node) {
         TreeNode child = node.getChildAt(2);
-        String input;
-        Scanner sc = new Scanner(System.in);
-        if (isFileInput) {
-            input = getNextInput();
-        } else {
-            if (sc.hasNext()) {
-                input = sc.next();
-            } else {
-                input = null;
-            }
-//            Thread.sleep(.);
-            sc.close();
-        }
+        String input = getNextInput();
         if (input == null) {
             error("没有任何输入");
             return null;

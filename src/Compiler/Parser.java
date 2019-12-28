@@ -101,10 +101,6 @@ public class Parser {
         return variableTable.get(variableIndex++);
     }
 
-    public void setLocationFile(File locationFile) {
-        this.locationFile = locationFile;
-    }
-
     public void setOut(OutputStream out) {
         this.out = out;
     }
@@ -389,7 +385,6 @@ public class Parser {
         stack.push(start);
         Set nonTerminalSet = getNonTerminalSet();
         int num_error = 0;
-        JPanel panel = new JPanel();
         TreeNode root = new TreeNode(start);
         Stack<TreeNode> tree = new Stack<>();
         tree.push(root);
@@ -480,7 +475,7 @@ public class Parser {
 
     private void getTree(DefaultMutableTreeNode node) {
         JTree jtree = new JTree(node);
-        JFrame frame=new JFrame("Syntax Tree");
+        JFrame frame = new JFrame("Syntax Tree");
         frame.setSize(1080,900);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new JScrollPane(jtree));

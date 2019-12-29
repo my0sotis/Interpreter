@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,9 +23,9 @@ public class SemanticAnalyzer {
     private int errorNum = 0;
     private List<String> errorInfo = new ArrayList<>();
 
-//    private File inputLocation = new File("./Tests/bag-test/beibao8.in");
+    private File inputLocation = new File("./Tests/bag-test/beibao8.in");
 //    private File inputLocation = new File("./Tests/stack/stack3.in");
-    private File inputLocation = new File("./Tests/manacher/m3.in");
+//    private File inputLocation = new File("./Tests/manacher/m3.in");
 
     private int level = 0;
     private int inputIndex = 0;
@@ -35,15 +34,26 @@ public class SemanticAnalyzer {
     private int whileNum = 0;
     private int forNum = 0;
 
+    /**
+     * SemanticAnalyser Constructor
+     * @param node Syntax Tree TreeNode
+     */
     public SemanticAnalyzer(TreeNode node) {
         root = node;
         LoadInputTable();
     }
 
+    /**
+     * Set the syntax tree root TreeNode
+     * @param root Syntax Tree Root TreeNode
+     */
     public void setRoot(TreeNode root) {
         this.root = root;
     }
 
+    /**
+     * Load the input table
+     */
     private void LoadInputTable() {
         try {
             inputTable.clear();
@@ -59,6 +69,10 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * Get next Input
+     * @return next input
+     */
     private String getNextInput() {
         if (inputIndex >= inputTable.size()) {
             error("Cannot get number");
@@ -67,12 +81,19 @@ public class SemanticAnalyzer {
         return inputTable.get(inputIndex++);
     }
 
+    /**
+     * Record the error information
+     * @param error Error Information
+     */
     private void error(String error) {
         errorNum++;
         String message = "Wrong: " + error;
         errorInfo.add(message);
     }
 
+    /**
+     * Analyse Main Function
+     */
     public void Analyse() {
         S(root);
         System.out.println();
@@ -85,6 +106,10 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * Sentence Operation (Start Symbol)
+     * @param node Current TreeNode
+     */
     private void S(TreeNode node) {
         if (isBreak || isContinue) return;
         for (int i = 0; i < node.getChildrenNum(); i++) {
@@ -107,6 +132,10 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * Single Sentence Operations
+     * @param node Current TreeNode
+     */
     private void SS(TreeNode node) {
         if (isBreak || isContinue) return;
         for (int i = 0; i < node.getChildrenNum(); i++) {
@@ -234,13 +263,17 @@ public class SemanticAnalyzer {
                         return;
                     }
                     if (!res.getType().equals("int")) {
-                        error("数组长度不可为real");
+                        error("数组索引不可为real");
+                        return;
+                    }
+                    int index = Integer.parseInt(res.getValue());
+                    if (index >= te.getArrayNum() || index < 0) {
+                        error("数组越界");
                         return;
                     }
                     TreeNode array1 = array.getChildAt(2);
                     if ("=".equals(array1.getChildAt(0).getName())) {
                         TreeNode array2 = array1.getChildAt(1);
-                        // Operations
                         String str;
                         switch (array2.getChildAt(0).getName()) {
                             case "Character":
@@ -265,14 +298,11 @@ public class SemanticAnalyzer {
                                     case "int":
                                         switch (result.getType()) {
                                             case "int":
-//                                                te.setIntValue(result.getValue());
+                                            case "char":
                                                 te.setArrayAt(Integer.parseInt(res.getValue()), new Value("int", result.getValue()));
                                                 break;
                                             case "real":
                                                 error("无法将real强制转换为int");
-                                                break;
-                                            case "char":
-                                                te.setArrayAt(Integer.parseInt(res.getValue()), new Value("int", result.getValue()));
                                                 break;
                                         }
                                         break;
@@ -293,6 +323,9 @@ public class SemanticAnalyzer {
                                 }
                         }
                     }
+                } else {
+                    error("不能直接对一个数组进行赋值运算");
+                    return;
                 }
                 TreeNode array1 = array.getChildAt(array.getChildrenNum()-1);
                 if ("=".equals(array1.getChildAt(0).getName())) {
@@ -319,7 +352,6 @@ public class SemanticAnalyzer {
                             error("数组索引错误");
                             return;
                         }
-
                     }
                 }
                 TreeNode tnode = node.getChildAt(2);
@@ -371,12 +403,22 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * Convert String to a List
+     * @param str target String
+     * @return String List
+     */
     private List<String> getListFromString(String str) {
         return Stream.iterate(0, n -> ++n).limit(str.length())
                 .map(n -> "" + str.charAt(n))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Convert List<String> to a List<Value> in order to save Character String
+     * @param list String List
+     * @return Value List
+     */
     private List<Value> getValueList(List<String> list) {
         List<Value> res = new ArrayList<>();
         for (var l :
@@ -386,6 +428,11 @@ public class SemanticAnalyzer {
         return res;
     }
 
+    /**
+     * Get the string content
+     * @param node Current TreeNode
+     * @return String Content
+     */
     private String getString(TreeNode node) {
         if (node.getChildAt(1).getChildAt(0).getName().equals("\"")) {
             return "";
@@ -394,6 +441,10 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * State Operation
+     * @param node Current TreeNode
+     */
     private void State(TreeNode node) {
         if (isBreak || isContinue) return;
         String type = node.getChildAt(0).getName();
@@ -410,8 +461,7 @@ public class SemanticAnalyzer {
                 table.add(element);
                 TreeNode tnode = child.getChildAt(0);
                 while (tnode.getChildrenNum() != 1) {
-                    TreeNode tmp = child.getChildAt(0).getChildAt(0);
-                    String tid = child.getChildAt(0).getChildAt(0).getChildAt(1).getName();
+                    String tid = tnode.getChildAt(1).getName();
                     if (tid == null) {
                         error("找不到对应变量值");
                         return;
@@ -492,13 +542,14 @@ public class SemanticAnalyzer {
                     case "=":
                         TreeNode array2 = array1.getChildAt(1);
                         if (array2.getChildAt(0).getName().equals("{")) {
+                            boolean isInit = true;
+                            if (element.getArrayNum() == 0) isInit = false;
                             int x = 0;
-//                            List<Value> values = new ArrayList<>();
                             element.setArrayAt(x, Value4(array2.getChildAt(1)));
                             x++;
                             TreeNode temp = array2.getChildAt(2);
                             while (temp.getChildrenNum() != 1) {
-                                if (x >= element.getArray().size()) {
+                                if (isInit && x >= element.getArray().size()) {
                                     error("超出最大范围");
                                     return;
                                 }
@@ -506,17 +557,18 @@ public class SemanticAnalyzer {
                                 x++;
                                 temp = temp.getChildAt(2);
                             }
-//                            element.setArray(values);
                             table.add(element);
                             break;
-                        } else {
-//                            element = new TableElement(id, "array", level);
+                        } else if (array2.getChildAt(0).getName().equals("String")) {
                             String x = getString(array2.getChildAt(0));
                             if (x == null) {
                                 error("未找到对应字符串");
                                 return;
                             }
                             element.setArray(getValueList(getListFromString(x)));
+                        } else {
+                            error("不符合数组的要求");
+                            return;
                         }
                 }
                 tnode = child.getChildAt(2);
@@ -699,6 +751,11 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * Value4 Operation
+     * @param node Current TreeNode
+     * @return Value
+     */
     private Value Value4(TreeNode node) {
         String name = node.getChildAt(0).getName();
         String next;
@@ -706,6 +763,17 @@ public class SemanticAnalyzer {
             case "Character":
                 // 判断字符是否为空
                 if (node.getChildAt(0).getChildAt(1).getChildAt(0).getName().equals("'")) {
+                    return new Value("char", "");
+                }
+                next = node.getChildAt(0).getChildAt(1).getChildAt(0).getName();
+                if (next == null) {
+                    error("无法获取下一个string");
+                    return null;
+                }
+                return new Value("char", next);
+            case "String":
+                // 判断字符是否为空
+                if (node.getChildAt(0).getChildAt(1).getChildAt(0).getName().equals("\"")) {
                     return new Value("char", "");
                 }
                 next = node.getChildAt(0).getChildAt(1).getChildAt(0).getName();
@@ -1122,7 +1190,7 @@ public class SemanticAnalyzer {
      * @param node Current Node
      * @return Value get from inputTable
      */
-    private synchronized Value Scan(TreeNode node) {
+    private Value Scan(TreeNode node) {
         TreeNode child = node.getChildAt(2);
         String input = getNextInput();
         if (input == null) {
@@ -1151,7 +1219,6 @@ public class SemanticAnalyzer {
                             return new Value("char", input);
                         case "array":
                             te.setArray(getValueList(getListFromString(input)));
-                            // Need Operation
                             if (te.getArrayElementAt(0) == null) {
                                 error("数组越界！");
                                 return null;
@@ -1202,6 +1269,10 @@ public class SemanticAnalyzer {
                 }
                 return null;
             case "[":
+                if (!te.getType().equals("array")) {
+                    error("对应变量不为数组类型。");
+                    return null;
+                }
                 Value indexName = Calculate(child.getChildAt(1).getChildAt(1));
                 if (indexName == null) {
                     error("找不到对应的数组索引");
@@ -1285,6 +1356,10 @@ public class SemanticAnalyzer {
     private boolean isBreak = false;
     private boolean isContinue = false;
 
+    /**
+     * Loop Operation
+     * @param node Current TreeNode
+     */
     private void L(TreeNode node) {
         TreeNode child = node.getChildAt(0);
         switch (child.getName()) {
@@ -1297,6 +1372,10 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * While Operation
+     * @param node Current TreeNode
+     */
     private void While(TreeNode node) {
         whileNum++;
         level++;
@@ -1339,6 +1418,10 @@ public class SemanticAnalyzer {
         }
     }
 
+    /**
+     * For Operation
+     * @param node Current TreeNode
+     */
     private void For(TreeNode node) {
         forNum++;
         level++;

@@ -1,5 +1,6 @@
 package Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +12,6 @@ public class TableElement {
     private String intValue;
     private String realValue;
     private String stringValue;
-    private int arrayNum;
     private List<Value> array;
 
     public TableElement(String name, String type, int level) {
@@ -21,31 +21,19 @@ public class TableElement {
         this.intValue = "";
         this.realValue = "";
         this.stringValue = "";
-        this.arrayNum = 0;
+        array = new ArrayList<>();
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public int getLevel() {
         return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
     }
 
     public String getIntValue() {
@@ -77,16 +65,11 @@ public class TableElement {
     }
 
     public int getArrayNum() {
-        return arrayNum;
-    }
-
-    public void setArrayNum(int arrayNum) {
-        this.arrayNum = arrayNum;
+        return array.size();
     }
 
     public void setArray(List<Value> array) {
         this.array = array;
-        arrayNum = array.size();
     }
 
     public List<Value> getArray() {
@@ -94,14 +77,14 @@ public class TableElement {
     }
 
     public Value getArrayElementAt(int index) {
-        if (index >= arrayNum) {
+        if (index >= array.size()) {
             return null;
         }
         return array.get(index);
     }
 
     public int getArraySize() {
-        return arrayNum;
+        return array.size();
     }
 
     @Override
@@ -110,7 +93,7 @@ public class TableElement {
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", level=" + level +
-                ", arrayNum=" + arrayNum +
+                ", arrayNum=" + array.size() +
                 '}';
     }
 
@@ -120,14 +103,14 @@ public class TableElement {
         if (o == null || getClass() != o.getClass()) return false;
         TableElement that = (TableElement) o;
         return level == that.level &&
-                arrayNum == that.arrayNum &&
+                array.size() == that.array.size() &&
                 name.equals(that.name) &&
                 type.equals(that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type, level, arrayNum);
+        return Objects.hash(name, type, level, array.size());
     }
 
     public String getValue() {

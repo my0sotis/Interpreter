@@ -51,8 +51,6 @@ TOKEN : {
     | < CONTINUE: "continue" >
     | < SCAN: "scan">
     | < WRITE: "print" >
-
-
 }
 
 /**
@@ -215,7 +213,7 @@ ASTStart Start():
     { return jjtThis; }
 }
 
-void S() #void :
+void S() #S :
 {}
 {
     LOOKAHEAD(3) Condition() (S())*
@@ -368,19 +366,19 @@ void UnaryExpression() #UnaryExpression :
   PostfixExpression()
 }
 
-void PreIncrementExpression():
+void PreIncrementExpression() #PreIncrementExpression :
 {}
 {
   "++" PrimaryExpression()
 }
 
-void PreDecrementExpression():
+void PreDecrementExpression() #PreDecrementExpression :
 {}
 {
   "--" PrimaryExpression()
 }
 
-void PostfixExpression():
+void PostfixExpression() #PostfixExpression :
 {}
 {
   PrimaryExpression() [ "++" | "--" ]

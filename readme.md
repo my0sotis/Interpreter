@@ -6,4 +6,4 @@
 ## Semantic Analyzer
     Located in ./src/Compiler/SemanticAnalyser.java
 ## JavaCC Parser
-    Located in ./CMMInterpreter.jjt
+    Located in ./JavaCC/CMMInterpreter.jjt

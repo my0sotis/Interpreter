@@ -1,0 +1,545 @@
+options {
+  STATIC = false;
+  MULTI = true;
+  KEEP_LINE_COLUMN = false;
+}
+
+PARSER_BEGIN(CMMInterpreter)
+
+public class CMMInterpreter {
+    public static void main(String[] args) throws ParseException{
+        System.out.println("Reading from standard input...");
+        CMMInterpreter parser = new CMMInterpreter(System.in);
+        try{
+            ASTStart n = parser.Start();
+            n.dump("");
+            System.out.println("Thank you.");
+        } catch (Exception e) {
+            System.out.println("Oops.");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+}
+PARSER_END(CMMInterpreter)
+
+SKIP:
+{
+    " "
+  | "\t"
+  | "\n"
+  | "\r"
+  | <"//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>
+  | <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+}
+
+/**
+* KeyWord
+*/
+TOKEN : {
+    < INT: "int" >
+    | < REAL: "real" >
+    | < CHAR: "char" >
+    | < TRUE: "true" >
+    | < FALSE: "false" >
+    | < FOR: "for" >
+    | < WHILE: "while">
+    | < IF: "if" >
+    | < ELSE: "else" >
+    | < BREAK: "break" >
+    | < CONTINUE: "continue" >
+    | < SCAN: "scan">
+    | < WRITE: "print" >
+
+
+}
+
+/**
+* INTEGER
+*/
+TOKEN :
+{
+  < INTEGER_LITERAL:
+        <DECIMAL_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+|
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+|
+  < FLOATING_LITERAL:
+        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+      | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+      | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+      | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+  >
+|
+  < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+|
+  < CHARACTER_LITERAL:
+      "'"
+      (   (~["'","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )
+      "'"
+  >
+|
+  < STRING_LITERAL:
+      "\""
+      (   (~["\"","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )*
+      "\""
+  >
+}
+
+/**
+* IDENTIFIER
+*/
+TOKEN :
+{
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+  < #LETTER:
+      [
+       "\u0024",
+       "\u0041"-"\u005a",
+       "\u005f",
+       "\u0061"-"\u007a",
+       "\u00c0"-"\u00d6",
+       "\u00d8"-"\u00f6",
+       "\u00f8"-"\u00ff",
+       "\u0100"-"\u1fff",
+       "\u3040"-"\u318f",
+       "\u3300"-"\u337f",
+       "\u3400"-"\u3d2d",
+       "\u4e00"-"\u9fff",
+       "\uf900"-"\ufaff"
+      ]
+  >
+|
+  < #DIGIT:
+      [
+       "\u0030"-"\u0039",
+       "\u0660"-"\u0669",
+       "\u06f0"-"\u06f9",
+       "\u0966"-"\u096f",
+       "\u09e6"-"\u09ef",
+       "\u0a66"-"\u0a6f",
+       "\u0ae6"-"\u0aef",
+       "\u0b66"-"\u0b6f",
+       "\u0be7"-"\u0bef",
+       "\u0c66"-"\u0c6f",
+       "\u0ce6"-"\u0cef",
+       "\u0d66"-"\u0d6f",
+       "\u0e50"-"\u0e59",
+       "\u0ed0"-"\u0ed9",
+       "\u1040"-"\u1049"
+      ]
+  >
+}
+
+/**
+* SEPARATORS
+*/
+TOKEN : {
+  < LPAREN: "(" >
+| < RPAREN: ")" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < DOT: "." >
+}
+
+/**
+* OPERATORS
+*/
+TOKEN : {
+  < ASSIGN: "=" >
+| < LT: "<" >
+| < GT: ">" >
+| < BANG: "!" >
+| < TILDE: "~" >
+| < EQ: "==" >
+| < LE: "<=" >
+| < GE: ">=" >
+| < NE: "!=" >
+| < SC_OR: "||" >
+| < SC_AND: "&&" >
+| < INCR: "++" >
+| < DECR: "--" >
+| < PLUS: "+" >
+| < MINUS: "-" >
+| < STAR: "*" >
+| < SLASH: "/" >
+| < BIT_AND: "&" >
+| < BIT_OR: "|" >
+| < XOR: "^" >
+| < REM: "%" >
+| < PLUSASSIGN: "+=" >
+| < MINUSASSIGN: "-=" >
+| < STARASSIGN: "*=" >
+| < SLASHASSIGN: "/=" >
+| < ANDASSIGN: "&=" >
+| < ORASSIGN: "|=" >
+| < XORASSIGN: "^=" >
+| < REMASSIGN: "%=" >
+}
+
+/****************************************
+ * THE CMM LANGUAGE GRAMMAR STARTS HERE *
+ ****************************************/
+
+ASTStart Start():
+{}
+{
+    S()
+    { return jjtThis; }
+}
+
+void S() #void :
+{}
+{
+    LOOKAHEAD(3) Condition() (S())*
+    | LOOKAHEAD(3) SingleSentence() (S())*
+    | LOOKAHEAD(3) Loop() (S())*
+}
+
+void Condition() #Condition :
+{}
+{
+    "if" <LPAREN> Expression() <RPAREN> (Judge())+
+}
+
+void Judge() #Judge :
+{}
+{
+    "if" <LPAREN> Expression() <RPAREN>
+    | Judge1()
+}
+
+void Judge1() #Judge1 :
+{}
+{
+    JudgeContent() (Else())?
+}
+
+void JudgeContent() #Content :
+{}
+{
+    LOOKAHEAD(3) SingleSentence()
+    | LOOKAHEAD(3) Loop()
+    | "{" S() "}"
+}
+
+void Else() #Else :
+{}
+{
+    "else" Judge2()
+}
+
+void Judge2() #Judge2 :
+{}
+{
+    LOOKAHEAD(3) "if" <LPAREN> Expression() <RPAREN> Judge1()
+    | JudgeContent()
+}
+
+void SingleSentence() #SingleSentence :
+{}
+{
+    Jump()
+    | Print()
+    | State()
+    | Assign()
+    | ScanSentence()
+}
+
+void Jump() #Jump :
+{}
+{
+    "continue" ";"
+    | "break" ";"
+}
+
+void Print() #Print :
+{}
+{
+    "print" "(" Expression() ")" ";"
+}
+
+void AssignmentOperator() #AssignmentOperator:
+{}
+{
+  "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "&=" | "^=" | "|="
+}
+
+void Expression() #Expression :
+{}
+{
+    ConditionalOrExpression()
+    [
+        LOOKAHEAD(2)
+        AssignmentOperator() Expression()
+    ]
+}
+
+void ConditionalOrExpression() #ConditionalOrExpression:
+{}
+{
+  ConditionalAndExpression() ( "||" ConditionalAndExpression() )*
+}
+
+void ConditionalAndExpression() #ConditionalAndExpression:
+{}
+{
+  InclusiveOrExpression() ( "&&" InclusiveOrExpression() )*
+}
+
+void InclusiveOrExpression() #InclusiveOrExpression:
+{}
+{
+  ExclusiveOrExpression() ( "|" ExclusiveOrExpression() )*
+}
+
+void ExclusiveOrExpression() #ExclusiveOrExpression:
+{}
+{
+  AndExpression() ( "^" AndExpression() )*
+}
+
+void AndExpression() #AndExpression:
+{}
+{
+  EqualityExpression() ( "&" EqualityExpression() )*
+}
+
+void EqualityExpression() #EqualityExpression:
+{}
+{
+  RelationalExpression() ( ( "==" | "!=" ) RelationalExpression() )*
+}
+
+void RelationalExpression() #RelationalExpression :
+{}
+{
+    AdditiveExpression() ( ( "<" | ">" | "<=" | ">=" ) AdditiveExpression() )*
+}
+
+void AdditiveExpression() #AdditiveExpression :
+{}
+{
+    MultiplicativeExpression() ( ( "+" | "-" ) MultiplicativeExpression() )*
+}
+
+void MultiplicativeExpression() #MultiplicativeExpression :
+{}
+{
+  UnaryExpression() ( ( "*" | "/" | "%" ) UnaryExpression() )*
+}
+
+void UnaryExpression() #UnaryExpression :
+{}
+{
+  ( "+" | "-" ) UnaryExpression()
+|
+  PreIncrementExpression()
+|
+  PreDecrementExpression()
+|
+  PostfixExpression()
+}
+
+void PreIncrementExpression():
+{}
+{
+  "++" PrimaryExpression()
+}
+
+void PreDecrementExpression():
+{}
+{
+  "--" PrimaryExpression()
+}
+
+void PostfixExpression():
+{}
+{
+  PrimaryExpression() [ "++" | "--" ]
+}
+
+void PrimaryExpression() #PrimaryExpression:
+{}
+{
+    Literal()
+  |
+    LOOKAHEAD(2) "(" Expression() ")"
+  |
+    <IDENTIFIER> ( LOOKAHEAD(2) "[" Expression() "]" )*
+  |
+    Scan()
+}
+
+void ScanSentence() #ScanSentence :
+{}
+{
+    Scan() ";"
+}
+
+void Scan() #Scan :
+{}
+{
+    "scan" "(" ScanItem() ")"
+}
+
+void ScanItem() #ScanItem :
+{}
+{
+    <IDENTIFIER> ( Expression() )?
+}
+
+void Literal() #Literal :
+{}
+{
+  <INTEGER_LITERAL>
+|
+  <FLOATING_LITERAL>
+|
+  <CHARACTER_LITERAL>
+|
+  <STRING_LITERAL>
+|
+  BooleanLiteral()
+}
+
+void BooleanLiteral() #BooleanLiteral:
+{}
+{
+  "true"
+|
+  "false"
+}
+
+void Loop() #Loop :
+{}
+{
+    LOOKAHEAD(3) While()
+    | For()
+}
+
+void While() #While :
+{}
+{
+    "while" "(" Expression() ")" While()
+    | WhileContent()
+}
+
+void WhileContent() #WhileContent :
+{}
+{
+    SingleSentence()
+    | "{" S() "}"
+    | Condition()
+}
+
+void For1() #For1 :
+{}
+{
+    Assign()
+   | State()
+}
+
+void For() #For :
+{}
+{
+    "for" "(" (For1())? Expression() ";" Assign() ")" For()
+    | ForContent()
+}
+
+void ForContent() #ForContent :
+{}
+{
+    SingleSentence()
+    | "{" S() "}"
+    | Condition()
+}
+
+void Assign() #Assign :
+{}
+{
+    <IDENTIFIER> Assign1() ( State2() )* ";"
+}
+
+void Assign1() #Assign1 :
+{}
+{
+    "[" Array()
+    | "=" Value()
+}
+
+void State() #State :
+{}
+{
+    ("int" | "real" | "char" ) <IDENTIFIER> State1()
+}
+
+void State1() #State1 :
+{}
+{
+    ( State2() )* ";"
+    | "[" Array() ( State2() )* ";"
+    | "=" Value() ( State2() )* ";"
+}
+
+void State2() #State2 :
+{}
+{
+    "," <IDENTIFIER> ( State3() )?
+}
+
+void Value() #Value :
+{}
+{
+    LOOKAHEAD(2) <STRING_LITERAL>
+    | LOOKAHEAD(2) <CHARACTER_LITERAL>
+    | Expression()
+}
+
+void State3() #State3 :
+{}
+{
+    "[" Array()
+    | "=" Value()
+}
+
+void Array() #Array :
+{}
+{
+    Expression() "]" ( "=" Array2() )?
+    | "]" ( "=" Array2() )?
+}
+
+void Array2() #Array2 :
+{}
+{
+    Value()
+    | "{" Value() ( "," Value() )* "}"
+}
